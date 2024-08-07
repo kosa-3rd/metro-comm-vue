@@ -1,26 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>
+        <header-cmp></header-cmp>
+        <content-cmp></content-cmp>
+        <nav-cmp></nav-cmp>
+        <footer-cmp></footer-cmp>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderCmp from './components/header/HeaderCmp.vue';
+import ContentCmp from './components/content/ContentCmp.vue';
+import NavCmp from './components/nav/NavCmp.vue';
+import FooterCmp from './components/footer/FooterCmp.vue';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    name: 'App',
+    components: {
+        HeaderCmp,
+        ContentCmp,
+        NavCmp,
+        FooterCmp,
+    },
+
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import url('./assets/GlobalStyle.css');
 </style>
