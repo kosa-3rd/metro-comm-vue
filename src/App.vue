@@ -1,18 +1,25 @@
 <template>
     <div>
-        <ExampleCompVue></ExampleCompVue>
+        <header-cmp></header-cmp>
+        <content-cmp></content-cmp>
+        <nav-cmp></nav-cmp>
+        <footer-cmp></footer-cmp>
     </div>
-
 </template>
 
 <script>
-import ExampleCompVue from './components/ExampleComp.vue';
+import HeaderCmp from './components/header/HeaderCmp.vue';
+import ContentCmp from './components/content/ContentCmp.vue';
+import NavCmp from './components/nav/NavCmp.vue';
+import FooterCmp from './components/footer/FooterCmp.vue';
 
 export default {
     name: 'App',
-    
     components: {
-        ExampleCompVue,
+        HeaderCmp,
+        ContentCmp,
+        NavCmp,
+        FooterCmp,
     },
 
 };
