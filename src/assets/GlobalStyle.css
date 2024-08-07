@@ -1,0 +1,66 @@
+.header {
+    @apply h-40;
+}
+
+.logo {
+    @apply h-24;
+}
+
+.train-arrival {
+    @apply h-28;
+}
+
+.line-buttons {
+    @apply h-20;
+}
+
+.station-btn {
+    @apply py-1 px-2 rounded text-xs min-h-8;
+}
+
+.nav {
+    @apply fixed h-16;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#app {
+    margin: auto;
+}
+
+.small-text {
+    @apply text-xs;
+}
+
+.normal-text {
+    @apply text-sm;
+}
+
+.h-large-text {
+    @apply text-3xl;
+}
+
+.h-mid-text {
+    @apply text-2xl;
+}
+
+@media (orientation: landscape) {
+    #app {
+        width: 800px;
+    }
+
+    .nav {
+        width: 800px;
+    }
+}
+
+@media (orientation: portrait) {
+    #app {
+        width: 100%;
+    }
+
+    .nav {
+        width: 100%;
+    }
+}
