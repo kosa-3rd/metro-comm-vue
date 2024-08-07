@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h3>Header</h3>
         <logo-cmp></logo-cmp>
         <line-buttons-cmp></line-buttons-cmp>
     </div>
