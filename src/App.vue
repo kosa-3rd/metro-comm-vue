@@ -1,11 +1,20 @@
 <template>
-    <div></div>
+    <div>
+        <ExampleCompVue></ExampleCompVue>
+    </div>
+
 </template>
 
 <script>
+import ExampleCompVue from './components/ExampleComp.vue';
+
 export default {
     name: 'App',
-    components: {},
+    
+    components: {
+        ExampleCompVue,
+    },
+
 };
 </script>
 
