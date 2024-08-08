@@ -11,8 +11,8 @@ module.exports = {
           landscape: { raw: '(orientation: landscape)' },
         },
         colors: {
-          customBlue: '#0052A4', // 기본 색상
           lineColors: {
+            '1호선': '#0052A4',
             '2호선': '#00A84D',
             '3호선': '#EF7C1C',
             '4호선': '#00A5DE',
