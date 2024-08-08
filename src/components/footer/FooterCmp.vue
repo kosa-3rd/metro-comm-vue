@@ -80,7 +80,7 @@
 }
 .py-8-custom {
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 5rem;
     padding-left: 0.8rem;
     padding-right: 0.8rem;
 }
