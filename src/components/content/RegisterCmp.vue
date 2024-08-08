@@ -23,8 +23,8 @@
                 /><br />
                 <input
                     type="text"
-                    id="userName"
-                    v-model="userName"
+                    id="username"
+                    v-model="username"
                     placeholder=" 이름 (한글)"
                     class="data-input"
                 /><br />
@@ -48,7 +48,7 @@ export default {
             userEmail: '',
             password: '',
             passwordConfirm: '',
-            userName: '',
+            username: '',
             nickname: '',
         };
     },
@@ -77,7 +77,7 @@ export default {
             this.validate(/^[a-zA-Z가-힣0-9]{2,12}$/.test(nickname), nickname, 'nickname', '형식이 올바르지 않습니다');
         },
         validateName(name) {
-            this.validate(/^[가-힣]+$/.test(name), name, 'userName', '형식이 올바르지 않습니다');
+            this.validate(/^[가-힣]+$/.test(name), name, 'username', '형식이 올바르지 않습니다');
         },
         validate(pass, data, id, errMsg) {
             let color = '#DB4455';
@@ -105,7 +105,7 @@ export default {
         nickname(newNickname) {
             this.validateNickanme(newNickname);
         },
-        userName(newName) {
+        username(newName) {
             this.validateName(newName);
         },
     },
