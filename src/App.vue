@@ -23,7 +23,7 @@ export default {
     },
     data() {
         return {
-            lineName: 'MECO',
+            lineName: 'MeCo',
             lineColor: 'bg-black',
             borderColor: 'border-black'
         };
