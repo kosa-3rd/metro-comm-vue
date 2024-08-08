@@ -1,18 +1,18 @@
 <template>
   <nav class="nav bg-white border-t border-gray-300 flex justify-around items-center">
-    <div @click="openModal" class="nav-item flex flex-col items-center flex-1"> <!-- 각 아이템을 flex-1로 비율 맞추기 -->
+    <div @click="openModal" class="nav-item flex flex-col items-center flex-1 clickable">
       <img :src="require('@/assets/route.png')" alt="노선도" class="nav-icon">
       <p class="normal-text font-bold">노선도</p>
     </div>
-    <router-link to="/" class="nav-item flex flex-col items-center flex-1"> <!-- 홈으로 이동 -->
-      <img :src="require('@/assets/home.png')" alt="HOME" class="nav-icon">
+    <router-link to="/" class="nav-item flex flex-col items-center flex-1 clickable" @click="scrollToTop">
+      <font-awesome-icon :icon="['fas', 'train']" class="nav-icon" />
       <p class="normal-text font-bold">HOME</p>
     </router-link>
-    <router-link to="/mypage" class="nav-item flex flex-col items-center flex-1"> <!-- 마이페이지로 이동 -->
+    <router-link to="/mypage" class="nav-item flex flex-col items-center flex-1 clickable">
       <img :src="require('@/assets/mypage.png')" alt="마이페이지" class="nav-icon">
       <p class="normal-text font-bold">마이페이지</p>
     </router-link>
-    <nav-modal v-if="isModalOpen" @close="closeModal"></nav-modal> <!-- 모달 컴포넌트 -->
+    <nav-modal v-if="isModalOpen" @close="closeModal"></nav-modal>
   </nav>
 </template>
 
@@ -34,6 +34,14 @@ export default {
     },
     closeModal() {
       this.isModalOpen = false;
+    },
+    scrollToTop() {
+      this.$nextTick(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
     }
   }
 };
@@ -54,6 +62,14 @@ export default {
 
 .nav-icon {
   @apply h-8 md:h-10;
+}
+
+.clickable {
+  @apply transition duration-200 ease-in-out;
+}
+
+.clickable:active {
+  @apply bg-gray-200;
 }
 
 @media (orientation: landscape) {
