@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-cmp></header-cmp>
+        <header-cmp :lineName="lineName" :lineColor="lineColor" :borderColor="borderColor" @lineNameUpdated="updateLineName" />
         <content-cmp></content-cmp>
         <nav-cmp></nav-cmp>
         <footer-cmp></footer-cmp>
@@ -20,6 +20,23 @@ export default {
         ContentCmp,
         NavCmp,
         FooterCmp,
+    },
+    data() {
+        return {
+            lineName: 'MeCo',
+            lineColor: 'bg-black',
+            borderColor: 'border-black'
+        };
+    },
+    methods: {
+        updateLineName(newLineName, newLineColor) {
+            this.lineName = newLineName;
+            this.lineColor = newLineColor;
+            this.borderColor = this.computeBorderColor(newLineColor);
+        },
+        computeBorderColor(lineColor) {
+            return lineColor.replace('bg-', 'border-');
+        }
     },
 };
 </script>
