@@ -1,9 +1,158 @@
 <template>
-    <h3>Register</h3>
+    <div>
+        <div id="page-info">
+            <h3 class="h-mid-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h3>
+            <h2 class="h-large-text font-bold">MECO</h2>
+        </div>
+        <div id="form-div" class="">
+            <form>
+                <input type="text" id="userEmail" v-model="userEmail" placeholder=" 이메일" class="data-input" /><br />
+                <input
+                    type="password"
+                    id="password"
+                    v-model="password"
+                    placeholder=" 비밀번호 (8~20자 대소문자, 숫자)"
+                    class="data-input"
+                /><br />
+                <input
+                    type="password"
+                    id="passwordConfirm"
+                    v-model="passwordConfirm"
+                    placeholder=" 비밀번호확인"
+                    class="data-input"
+                /><br />
+                <input
+                    type="text"
+                    id="userName"
+                    v-model="userName"
+                    placeholder=" 이름 (한글)"
+                    class="data-input"
+                /><br />
+                <input
+                    type="text"
+                    id="nickname"
+                    v-model="nickname"
+                    placeholder=" 닉네임 (2~12자 한글, 대소문자, 숫자)"
+                    class="data-input"
+                /><br />
+                <input type="submit" value="회원가입" />
+            </form>
+        </div>
+    </div>
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+        return {
+            userEmail: '',
+            password: '',
+            passwordConfirm: '',
+            userName: '',
+            nickname: '',
+        };
+    },
+    methods: {
+        validateEmail(email) {
+            this.validate(
+                /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i.test(email),
+                email,
+                'userEmail',
+                '형식이 올바르지 않습니다',
+            );
+        },
+        validatePassword(password) {
+            this.validate(/^[a-zA-Z0-9]{8,20}$/.test(password), password, 'password', '형식이 올바르지 않습니다');
+            this.validatePasswordConfirm(this.passwordConfirm);
+        },
+        validatePasswordConfirm(passwordConfirm) {
+            this.validate(
+                passwordConfirm === this.password,
+                passwordConfirm,
+                'passwordConfirm',
+                '비밀번호가 일치하지 않습니다',
+            );
+        },
+        validateNickanme(nickname) {
+            this.validate(/^[a-zA-Z가-힣0-9]{2,12}$/.test(nickname), nickname, 'nickname', '형식이 올바르지 않습니다');
+        },
+        validateName(name) {
+            this.validate(/^[가-힣]+$/.test(name), name, 'userName', '형식이 올바르지 않습니다');
+        },
+        validate(pass, data, id, errMsg) {
+            let color = '#DB4455';
+            let text = errMsg;
+            const elem = document.getElementById(id);
+
+            if (pass) {
+                text = '';
+                color = '#3FE87F';
+            }
+            elem.style.borderBottomColor = color;
+            elem.setCustomValidity(text);
+        },
+    },
+    watch: {
+        userEmail(newEmail) {
+            this.validateEmail(newEmail);
+        },
+        password(newPassword) {
+            this.validatePassword(newPassword);
+        },
+        passwordConfirm(newPasswordConfirm) {
+            this.validatePasswordConfirm(newPasswordConfirm);
+        },
+        nickname(newNickname) {
+            this.validateNickanme(newNickname);
+        },
+        userName(newName) {
+            this.validateName(newName);
+        },
+    },
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+#page-info {
+    @apply text-center mt-5 mb-8;
+}
+
+#form-div {
+    border: 2px solid lightgray;
+    border-radius: 0.5rem;
+    width: 90%;
+    margin: auto;
+    padding: 5%;
+}
+
+#form-div label {
+    @apply text-lg;
+    display: block;
+    width: 5rem;
+    font-weight: bold;
+}
+
+.data-input {
+    @apply h-9 m-auto block mb-5;
+    width: 90%;
+    max-width: 600px;
+    border-bottom: 3px solid lightgray;
+    outline: none;
+}
+
+.data-input:focus {
+    border-bottom: 3px solid black;
+}
+
+input[type='submit'] {
+    border-radius: 0.5rem;
+    width: 90%;
+    height: 2rem;
+    @apply bg-black m-auto block text-white;
+}
+
+form {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+</style>
