@@ -9,7 +9,7 @@
       <p class="normal-text font-bold">HOME</p>
     </router-link>
     <router-link to="/mypage" class="nav-item flex flex-col items-center flex-1 clickable">
-      <img :src="require('@/assets/mypage.png')" alt="마이페이지" class="nav-icon">
+      <font-awesome-icon :icon="['far', 'user']" class="nav-icon" />
       <p class="normal-text font-bold">마이페이지</p>
     </router-link>
     <nav-modal v-if="isModalOpen" @close="closeModal"></nav-modal>
