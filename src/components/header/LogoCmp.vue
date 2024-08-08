@@ -27,7 +27,7 @@ export default {
   },
   computed: {
       textColor() {
-          return this.lineName === 'MECO' ? 'text-black' : 'text-black';
+          return this.lineName === 'MeCo' ? 'text-black' : 'text-black';
       }
   }
 };
