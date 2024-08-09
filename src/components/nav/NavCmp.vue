@@ -3,58 +3,58 @@
     <router-link 
       to="/navmap" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('route')"
       exact
-      :class="{ active: isRouteActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['fas', 'code-branch']" class="nav-icon" />
       <p class="normal-text font-bold">노선도</p>
     </router-link>
+
     <router-link 
       to="/" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('home')"
       exact
-      :class="{ active: isHomeActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['fas', 'train']" class="nav-icon" />
       <p class="normal-text font-bold">HOME</p>
     </router-link>
+
     <router-link 
-      to="/mypage" 
+      v-if="isAuthenticated" 
+      to="/my" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('mypage')"
       exact
-      :class="{ active: isMyPageActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['far', 'user']" class="nav-icon" />
       <p class="normal-text font-bold">마이페이지</p>
+    </router-link>
+
+    <router-link 
+      v-else 
+      to="/login" 
+      class="nav-item flex flex-col items-center flex-1 clickable"
+      exact
+      active-class="active"
+    >
+    <font-awesome-icon :icon="['fas', 'user-lock']" class="nav-icon" />
+      <p class="normal-text font-bold">로그인</p>
     </router-link>
   </nav>
 </template>
 
 <script>
+import { useUserStore } from "@/store/user-store";
+
 export default {
-  data() {
+  setup() {
+    const userStore = useUserStore();
+    const isAuthenticated = userStore.authenticated();
+
     return {
-      activeItem: ''  // 현재 활성화된 아이템을 저장
+      isAuthenticated,
     };
-  },
-  computed: {
-    isRouteActive() {
-      return this.activeItem === 'route';
-    },
-    isHomeActive() {
-      return this.activeItem === 'home';
-    },
-    isMyPageActive() {
-      return this.activeItem === 'mypage';
-    }
-  },
-  methods: {
-    setActive(item) {
-      this.activeItem = item;
-    }
   }
 };
 </script>
