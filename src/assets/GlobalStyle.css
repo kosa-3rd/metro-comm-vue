@@ -45,7 +45,6 @@
     @apply text-2xl;
 }
 
-
 @media (orientation: landscape) {
     #app {
         width: 800px;
@@ -66,4 +65,19 @@
     }
 }
 
+@keyframes vibration {
+    from {
+        transform: rotate(0.4deg);
+    }
+    to {
+        transform: rotate(-0.4deg);
+    }
+}
 
+.vibration-infinite {
+    animation: vibration 0.1s infinite;
+}
+
+.vibration-3 {
+    animation: vibration 0.1s 3;
+}

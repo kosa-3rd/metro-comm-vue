@@ -1,9 +1,6 @@
 <template>
     <div>
-        <br>
-        <h3>Content</h3>
-    
-
+        <br />
         <router-view></router-view>
     </div>
 </template>
