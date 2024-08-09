@@ -1,6 +1,6 @@
 <!-- 
  작성자: 양건모 
- 시작 일자: 2024.08.07
+ 시작 일자: 2024.08.08
  ---------------------
  2024.08.08 기능 구현 완료
  
@@ -15,7 +15,7 @@
                 <input
                     type="text"
                     id="userEmail"
-                    v-model="userEmail"
+                    v-model="userInput.userEmail"
                     placeholder=" Email"
                     class="data-input"
                     required
@@ -23,7 +23,7 @@
                 <input
                     type="password"
                     id="password"
-                    v-model="password"
+                    v-model="userInput.password"
                     placeholder=" Password"
                     class="data-input"
                 /><br />
@@ -33,7 +33,7 @@
     </div>
 </template>
 
-<script>
+<!-- <script>
 import axios from 'axios';
 
 export default {
@@ -55,11 +55,54 @@ export default {
                         'Content-Type': 'application/json',
                     },
                 })
-                .then({})
+                .then((info) => {
+                    console.log(info);
+                })
                 .catch();
         },
     },
 };
+</script> -->
+
+<script setup>
+import axios from 'axios';
+import { ref } from 'vue';
+import { useUserStore } from '@/store/user-store';
+import router from '@/router';
+
+const userInput = ref({
+    userEmail: '',
+    password: '',
+});
+
+const login = useUserStore.login();
+const authenticated = useUserStore.authenticated;
+
+const submit = async function () {
+    const requestData = JSON.stringify({
+        email: userInput.value.userEmail,
+        password: userInput.value.password,
+    });
+    await axios
+        .post('/api/users/login', requestData, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((info) => {
+            console.log(info.data.email);
+
+            this.login(info.data.email);
+            if (authenticated) {
+                router.push('/');
+            }
+        })
+        .catch((err) => {
+            console.log('로그인 정보 없음: ' + err);
+        });
+};
+
+// };
 </script>
 
 <style scoped>
