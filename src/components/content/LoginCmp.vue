@@ -15,7 +15,7 @@
                 <input
                     type="text"
                     id="userEmail"
-                    v-model="userInput.userEmail"
+                    v-model="emailInput"
                     placeholder=" Email"
                     class="data-input"
                     required
@@ -23,7 +23,7 @@
                 <input
                     type="password"
                     id="password"
-                    v-model="userInput.password"
+                    v-model="passwordInput"
                     placeholder=" Password"
                     class="data-input"
                 /><br />
@@ -33,55 +33,21 @@
     </div>
 </template>
 
-<!-- <script>
-import axios from 'axios';
-
-export default {
-    data() {
-        return {
-            userEmail: '',
-            password: '',
-        };
-    },
-    methods: {
-        async submit() {
-            const requestData = JSON.stringify({
-                email: this.userEmail,
-                password: this.password,
-            });
-            await axios
-                .post('/api/users/login', requestData, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then((info) => {
-                    console.log(info);
-                })
-                .catch();
-        },
-    },
-};
-</script> -->
-
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
 import { useUserStore } from '@/store/user-store';
 import router from '@/router';
 
-const userInput = ref({
-    userEmail: '',
-    password: '',
-});
+const emailInput = ref('');
+const passwordInput = ref('');
 
-const login = useUserStore.login();
-const authenticated = useUserStore.authenticated;
+const userStore = useUserStore();
 
 const submit = async function () {
     const requestData = JSON.stringify({
-        email: userInput.value.userEmail,
-        password: userInput.value.password,
+        email: emailInput.value,
+        password: passwordInput.value,
     });
     await axios
         .post('/api/users/login', requestData, {
@@ -91,18 +57,13 @@ const submit = async function () {
         })
         .then((info) => {
             console.log(info.data.email);
-
-            this.login(info.data.email);
-            if (authenticated) {
-                router.push('/');
-            }
+            userStore.login(info.data.email);
+            router.push('/');
         })
-        .catch((err) => {
-            console.log('로그인 정보 없음: ' + err);
-        });
-};
+        .catch();
 
-// };
+    console.log(userStore.authenticated);
+};
 </script>
 
 <style scoped>
