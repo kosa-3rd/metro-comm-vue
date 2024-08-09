@@ -3,11 +3,22 @@
  시작 일자: 2024.08.08
  ---------------------
  2024.08.09 기능 구현 완료
+ 2024.08.09 디자인 수정
  
  -->
 <template>
     <div id="login-wrapper">
-        <h3 id="sign-info" class="h-mid-text text-center mb-4 font-semibold">Sign In</h3>
+        <div id="upper-compo">
+            <div id="upper-compo-left" class="w-6">
+                <button @click="goPrev">
+                    <img src="../../assets/left_arrow.png" style="width: 1.5rem; height: 1.5rem" />
+                </button>
+            </div>
+            <div id="upper-compo-center">
+                <h3 id="sign-info" class="text-xl font-semibold text-center mb-4">Sign In</h3>
+            </div>
+            <div id="upper-compo-right" class="w-6"></div>
+        </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
                 <input
@@ -27,12 +38,22 @@
                 /><br />
                 <button id="submit" type="button" v-on:click="submit">Sign In</button>
                 <h3 id="err" class="text-center text-lg text-red-500 font-semibold mt-4 errMsg">
-                    아이디 혹은 비밀번호가 일치하지 않습니다
+                    아이디 혹은 비밀번호를 확인해주세요
                 </h3>
             </form>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    methods: {
+        goPrev() {
+            this.$router.go(-1);
+        },
+    },
+};
+</script>
 
 <script setup>
 import axios from 'axios';
@@ -120,7 +141,7 @@ const submit = async function () {
 
 form {
     padding-top: 3rem;
-    padding-bottom: 3rem;
+    padding-bottom: 2rem;
 }
 
 #login-wrapper {
@@ -129,5 +150,15 @@ form {
 
 #err {
     visibility: hidden;
+}
+
+#upper-compo {
+    justify-content: space-between;
+    margin: 0 2rem 0 2rem;
+    @apply flex mb-4 pb-0;
+}
+
+#upper-compo * {
+    /* background: red; */
 }
 </style>
