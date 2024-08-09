@@ -4,11 +4,11 @@ import './index.css';
 import router from './router/index';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrain } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-regular-svg-icons';  // regular 아이콘 세트에서 user 아이콘 추가
+import { faCodeBranch, faTrain } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons'; // Regular 아이콘 추가
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faTrain, faUser);
+library.add(faCodeBranch, faTrain, faUser); // 아이콘을 라이브러리에 추가
 
 const app = createApp(App);
 app.component('font-awesome-icon', FontAwesomeIcon);
