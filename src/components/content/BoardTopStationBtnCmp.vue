@@ -1,7 +1,7 @@
 <template>
     <!-- 메뉴 버튼 -->
     <div>
-        <transition-group name="menu" tag="div" class="grid grid-cols-5 gap-2 p-2" :class="gridClass">
+        <transition-group name="slide" tag="div" class="grid grid-cols-4 gap-2 p-2">
             <button v-for="(menu, index) in visibleMenus" :key="index" class="station-btn shared-btn">
                 {{ menu }}
             </button>
@@ -16,6 +16,7 @@
 
 <script>
 export default {
+    
     data() {
         return {
             menus: [
@@ -32,32 +33,25 @@ export default {
                 '버튼1',
                 '버튼이름은',
                 '오육칠팔구',
+                '213',
+                '123213',
+                'exn'
             ],
-            isExpanded: false,
-            visibleCount: 8,
-            gridClass: 'grid-cols-5' // 기본 그리드 클래스
+            isExpanded: false, // 기본 상태는 메뉴가 접힌 상태
         };
     },
     computed: {
         visibleMenus() {
-            return this.isExpanded ? this.menus : this.menus.slice(0, this.visibleCount);
+            return this.isExpanded ? this.menus : this.menus.slice(0, 8);
         }
     },
     methods: {
         toggleMenu() {
             this.isExpanded = !this.isExpanded;
         },
-        updateGridClass() {
-            this.gridClass = window.innerWidth <= 768 ? 'grid-cols-4' : 'grid-cols-5';
-        }
     },
-    mounted() {
-        this.updateGridClass();
-        window.addEventListener('resize', this.updateGridClass);
-    },
-    beforeUnmount() {
-        window.removeEventListener('resize', this.updateGridClass);
-    }
+
+    
 };
 </script>
 
@@ -103,43 +97,37 @@ export default {
     text-decoration: underline; /* 호버 시에도 밑줄 유지 */
 }
 
-/* 메뉴 애니메이션 */
-.menu-enter-active, .menu-leave-active {
+/* 슬라이드 인/아웃 애니메이션 */
+ .slide-leave-active {
     transition: all 0.2s ease;
+    position: relative; /* 애니메이션이 원활하게 작동되도록 position 설정 */
 }
 
-.menu-enter, .menu-leave-to /* .menu-leave-active in <2.1.8 */ {
-    opacity: 0;
-    transform: translateY(-10px);
+.slide-leave {
+    transform: translateY(0); /* 시작 위치 */
+    opacity: 1; /* 시작 상태는 불투명 */
 }
 
-@media (max-width: 768px) {
+.slide-leave-to {
+    transform: translateY(-5px); /* 접기 시 위로 슬라이드 아웃 */
+    opacity: 0; /* 사라질 때 투명해짐 */
+}
+
+@media (max-width: 500px) {
     .grid-cols-4 {
-        grid-template-columns: repeat(4, 2fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 
     .shared-btn {
-    font-size: 12px; /* 작은 화면에서 글자 크기 조정 */
-    padding: 6px 10px; /* 작은 화면에서 패딩 조정 */
-    min-width: 70px; /* 작은 화면에서 버튼 너비 조정 */
-}
+        font-size: 12px; /* 작은 화면에서 글자 크기 조정 */
+        padding: 6px 10px; /* 작은 화면에서 패딩 조정 */
+        min-width: 70px; /* 작은 화면에서 버튼 너비 조정 */
+    }
 }
 
 @media (max-width: 390px) {
-    .grid-cols-3 {
-        grid-template-columns: repeat(3, 2fr); /* 매우 작은 화면에서 3열로 변경 */
-    }
-
-    .station-btn {
-        font-size: 10px; /* 매우 작은 화면에서 글자 크기 조정 */
-        padding: 4px 8px; /* 매우 작은 화면에서 패딩 조정 */
-        min-width: 60px; /* 매우 작은 화면에서 버튼 너비 조정 */
-    }
-
-    .toggle-btn {
-        font-size: 10px; /* 매우 작은 화면에서 글자 크기 조정 */
-        padding: 4px 8px; /* 매우 작은 화면에서 패딩 조정 */
-        min-width: 60px; /* 매우 작은 화면에서 버튼 너비 조정 */
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr); /* 매우 작은 화면에서도 4열로 유지 */
     }
 }
 </style>
