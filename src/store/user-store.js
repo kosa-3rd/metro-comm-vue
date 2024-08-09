@@ -18,7 +18,13 @@ export const useUserStore = defineStore(
             user.value = email;
         };
 
-        return { user, authenticated, login, getUser };
+        const logout = function () {
+            sessionStorage.removeItem('users');
+            user.value = null;
+            return sessionStorage.getItem('users') == null;
+        };
+
+        return { user, authenticated, login, getUser, logout };
     },
     {
         persist: {
