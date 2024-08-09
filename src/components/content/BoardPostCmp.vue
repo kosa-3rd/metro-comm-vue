@@ -1,7 +1,7 @@
 <template>
     <!-- 게시판 제목 -->
     <h2 class="text-2xl font-bold pl-4">1호선 게시판</h2>
-    <div class="border rounded-lg p-4 mt-2 ml-4 mr-4">
+    <div class="border rounded-lg p-4 mt-2 ml-4 mr-4 mb-20">
 
         <!-- 실시간 인기글 -->
         <p class="text-sm text-gray-600 pt-1">1호선 실시간 인기 글</p>
@@ -43,7 +43,7 @@
     <!-- 글 쓰기 Button -->
     <button
         @click="openModal"
-        class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50 "
+        class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50"
     >
         <span class="material-icons mr-2 write-icon">edit</span> 
         <span class="text-sm align-middle">글 쓰기</span>
@@ -56,7 +56,7 @@
                 <h2 class="text-xl font-bold">게시글 작성</h2>
                 <button 
                     @click="closeModal"
-                    class="absolute right-7 top-7 text-gray-600"
+                    class="absolute right-7 top-2 close-icon"
                 >
                     <span class="material-icons">close</span>
                 </button>
@@ -81,8 +81,10 @@
                 class="w-full border rounded-lg p-2"
                 rows="5"
                 placeholder="게시글을 작성해 주세요"
-                @keyup.enter="submitPost"
+                @input="checkLength"
+                maxlength="100"
             ></textarea>
+            <div class="text-right text-sm text-gray-500">{{ newPostContent.length }}/100</div>
 
             <!-- 작성하기 버튼 -->
             <div class="relative h-24">
@@ -145,6 +147,12 @@ export default {
             } else {
                 alert("호선과 내용을 모두 입력해 주세요.");
             }
+        },
+        // 글자 수 제한
+        checkLength() {
+            if (this.newPostContent.length > 100) {
+                this.newPostContent = this.newPostContent.slice(0, 100);
+            }
         }
     }
 };
@@ -157,6 +165,9 @@ export default {
 .write-icon {
     font-size: 1.5rem;
     vertical-align: middle;
+}
+.close-icon {
+    font-size: 2rem;
 }
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
