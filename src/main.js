@@ -7,9 +7,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCodeBranch, faTrain } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons'; // Regular 아이콘 추가
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 const app = createApp(App);
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 app.use(router);
 app.use(pinia);
