@@ -3,19 +3,19 @@
  시작 일자: 2024.08.08
  ---------------------
  2024.08.09 기능 구현 완료
- 2024.08.09 디자인 수정
+ 2024.08.09 디자인 수정, 회원가입 링크 추가
  
  -->
 <template>
     <div id="login-wrapper">
         <div id="upper-compo">
-            <div id="upper-compo-left" class="w-6">
+            <div id="upper-compo-left" class="w-6 mb-4 mt-4">
                 <button @click="goPrev">
                     <img src="../../assets/left_arrow.png" style="width: 1.5rem; height: 1.5rem" />
                 </button>
             </div>
             <div id="upper-compo-center">
-                <h3 id="sign-info" class="text-xl font-semibold text-center mb-4">Sign In</h3>
+                <h3 id="sign-info" class="text-xl font-semibold text-center mb-4 mt-4">로그인</h3>
             </div>
             <div id="upper-compo-right" class="w-6"></div>
         </div>
@@ -41,6 +41,9 @@
                     아이디 혹은 비밀번호를 확인해주세요
                 </h3>
             </form>
+        </div>
+        <div id="register-link">
+            <router-link to="/register">회원가입</router-link>
         </div>
     </div>
 </template>
@@ -156,10 +159,17 @@ form {
 #upper-compo {
     justify-content: space-between;
     margin: 0 2rem 0 2rem;
-    @apply flex mb-4 pb-0;
+    @apply flex mb-4 mt-4 pb-0;
+    border-bottom: 1px solid #e5e5e5; /* 선 추가 */
+    border-top: 1px solid #e5e5e5;
 }
 
-#upper-compo * {
-    /* background: red; */
+#register-link {
+    margin: auto;
+    width: 90%;
+    text-align: right;
+    margin-right: 8%;
+    color: #aaa;
+    @apply text-lg mt-3 underline;
 }
 </style>
