@@ -41,12 +41,12 @@
 
 <script>
 import { useUserStore } from '@/store/user-store';
-import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 export default {
     setup() {
         const userStore = useUserStore();
-        const isAuthenticated = storeToRefs(userStore.authenticated);
+        const isAuthenticated = computed(() => userStore.authenticated);
 
         return {
             isAuthenticated,
