@@ -1,5 +1,5 @@
 .header {
-    @apply h-40;
+    @apply h-28;
 }
 
 .logo {
@@ -63,4 +63,72 @@
     .nav {
         width: 100%;
     }
+}
+
+@keyframes vibration {
+    from {
+        transform: rotate(0.4deg);
+    }
+    to {
+        transform: rotate(-0.4deg);
+    }
+}
+
+/* 호선별 배경색 및 테두리 색상 정의 */
+.bg-lineColors-1호선 {
+    background-color: #0052a4;
+} /* 파란색 */
+.bg-lineColors-2호선 {
+    background-color: #00a84d;
+} /* 녹색 */
+.bg-lineColors-3호선 {
+    background-color: #ef7c1c;
+} /* 주황색 */
+.bg-lineColors-4호선 {
+    background-color: #00a5de;
+} /* 하늘색 */
+.bg-lineColors-5호선 {
+    background-color: #996cac;
+} /* 보라색 */
+.bg-lineColors-6호선 {
+    background-color: #cd7c2f;
+} /* 갈색 */
+.bg-lineColors-7호선 {
+    background-color: #747f00;
+} /* 연두색 */
+.bg-lineColors-8호선 {
+    background-color: #e6186c;
+} /* 분홍색 */
+
+.border-lineColors-1호선 {
+    border-color: #0052a4;
+} /* 파란색 테두리 */
+.border-lineColors-2호선 {
+    border-color: #00a84d;
+} /* 녹색 테두리 */
+.border-lineColors-3호선 {
+    border-color: #ef7c1c;
+} /* 주황색 테두리 */
+.border-lineColors-4호선 {
+    border-color: #00a5de;
+} /* 하늘색 테두리 */
+.border-lineColors-5호선 {
+    border-color: #996cac;
+} /* 보라색 테두리 */
+.border-lineColors-6호선 {
+    border-color: #cd7c2f;
+} /* 갈색 테두리 */
+.border-lineColors-7호선 {
+    border-color: #747f00;
+} /* 연두색 테두리 */
+.border-lineColors-8호선 {
+    border-color: #e6186c;
+} /* 분홍색 테두리 */
+
+.vibration-infinite {
+    animation: vibration 0.1s infinite;
+}
+
+.vibration-3 {
+    animation: vibration 0.1s 3;
 }

@@ -1,24 +1,20 @@
 <template>
     <div>
-        <div class="header bg-blue-600">
-            <!-- 상단 헤더  -->
-            <div class="logo text-white flex items-center justify-between">
-                <span class="h-text font-bold">1. 호선</span>
+        <div class="header  flex items-center">
+            <!-- 왼쪽 주황색 긴 바 -->
+            <div class="flex-grow"></div>
+            
+            <!-- 상단 헤더 -->
+            <div class="logo">
+                <span class="h-text font-bold text-3xl">{{ lineName }}</span>
                 <span class="text-sm">METRO COMMUNITY</span>
             </div>
-
-            <!-- 호선 목록 -->
-            <div class="flex line-buttons justify-between">
-                <div
-                    v-for="station in ['2호선', '3호선', '4호선', '5호선', '6호선']"
-                    :key="station"
-                    class="w-10 h-10 rounded-full flex items-center justify-center text-xs"
-                    :class="getStationColor(station)"
-                >
-                    {{ station }}
-                </div>
-            </div>
+            
+            <!-- 오른쪽 주황색 긴 바 -->
+            <div class="flex-grow"></div>
         </div>
+
+        
 
         <!-- 전철 전광판 구역 -->
         <div class="train-arrival">
@@ -77,6 +73,7 @@
 export default {
     data() {
         return {
+            lineName: '1호선',
             menus: [
                 '버튼1',
                 '버튼2',
@@ -140,3 +137,34 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.header {
+    @apply flex items-center
+}
+
+.header .logo {
+    @apply flex flex-col items-center justify-center rounded-3xl border-8 border-orange-500 bg-white px-20 py-2 text-black;
+}
+
+.header .flex-grow {
+    @apply h-7 bg-orange-500;
+}
+
+.h-text {
+    @apply text-3xl font-bold;
+}
+
+.station-btn {
+    @apply bg-white text-blue-600 py-1 px-2 rounded text-xs min-h-16;
+}
+
+.toggle-btn {
+    @apply bg-blue-500 text-white py-2 px-4 rounded mt-2;
+}
+
+
+.write-btn {
+    @apply bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold;
+}
+</style>
