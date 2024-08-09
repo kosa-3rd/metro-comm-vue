@@ -1,5 +1,5 @@
 .header {
-    @apply h-32;
+    @apply h-28;
 }
 
 .logo {
@@ -45,6 +45,7 @@
     @apply text-2xl;
 }
 
+
 @media (orientation: landscape) {
     #app {
         width: 800px;
@@ -64,3 +65,5 @@
         width: 100%;
     }
 }
+
+
