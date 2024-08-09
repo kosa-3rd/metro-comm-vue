@@ -68,11 +68,11 @@
                 <option value="line1">1호선</option>
                 <option value="line2">2호선</option>
                 <option value="line3">3호선</option>
-                <option value="line3">4호선</option>
-                <option value="line3">5호선</option>
-                <option value="line3">6호선</option>
-                <option value="line3">7호선</option>
-                <option value="line3">8호선</option>
+                <option value="line4">4호선</option>
+                <option value="line5">5호선</option>
+                <option value="line6">6호선</option>
+                <option value="line7">7호선</option>
+                <option value="line8">8호선</option>
             </select>
 
             <!-- 게시글 작성 텍스트 에리어 -->
@@ -88,9 +88,21 @@
 
             <!-- 작성하기 버튼 -->
             <div class="relative h-24">
-                <button @click="submitPost" class="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white w-60 py-2 px-4 rounded-lg">
+                <button @click="confirmSubmit" class="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white w-60 py-2 px-4 rounded-lg">
                     작성하기
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 작성 확인 Modal -->
+    <div v-if="isConfirmOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-lg font-bold mb-4">게시글 작성</h2>
+            <p class="mb-6">게시글 작성을 완료하시겠습니까?</p>
+            <div class="flex justify-center">
+                <button @click="submitPost" class="bg-blue-500 text-white py-2 px-6 rounded-lg mr-4">확인</button>
+                <button @click="closeConfirm" class="bg-gray-200 py-2 px-6 rounded-lg">취소</button>
             </div>
         </div>
     </div>
@@ -122,6 +134,7 @@ export default {
                 // 다른 게시글 데이터 추가
             ],
             isModalOpen: false, // 모달 상태 변수
+            isConfirmOpen: false, // 작성 확인 모달 상태 변수
             selectedCategory: '', // 선택한 카테고리
             newPostContent: '' // 새 게시글 내용
         };
@@ -133,6 +146,16 @@ export default {
         closeModal() {
             this.isModalOpen = false;
         },
+        confirmSubmit() {
+            if (!this.newPostContent.trim() || !this.selectedCategory) {
+                alert("호선과 내용을 모두 입력해 주세요.");
+            } else {
+                this.isConfirmOpen = true;
+            }
+        },
+        closeConfirm() {
+            this.isConfirmOpen = false;
+        },
         submitPost() {
             if (this.newPostContent.trim() && this.selectedCategory) {
                 this.posts.unshift({
@@ -143,9 +166,8 @@ export default {
                 });
                 this.newPostContent = '';
                 this.selectedCategory = '';
+                this.closeConfirm();
                 this.closeModal();
-            } else {
-                alert("호선과 내용을 모두 입력해 주세요.");
             }
         },
         // 글자 수 제한
