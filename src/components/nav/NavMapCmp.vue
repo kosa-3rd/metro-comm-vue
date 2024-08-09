@@ -21,7 +21,7 @@ export default {
 .modal {
   @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
   z-index: 1000; /* 다른 요소보다 앞에 나타나도록 높은 z-index 설정 */
-  animation: fadeIn 0.s ease-out; /* 천천히 열리는 애니메이션 */
+  animation: fadeIn 0.2s ease-out; /* 천천히 열리는 애니메이션 */
 }
 
 .modal-content {
