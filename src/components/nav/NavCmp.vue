@@ -87,7 +87,7 @@ export default {
 
 /* 커스텀 active 클래스 */
 .active .nav-icon {
-  color: rgb(51, 51, 198); /* 선택된 아이콘을 파란색으로 설정 */
+  color: rgb(79, 79, 218); /* 선택된 아이콘을 파란색으로 설정 */
 }
 
 .active p {

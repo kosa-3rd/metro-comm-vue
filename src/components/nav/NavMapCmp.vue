@@ -31,7 +31,7 @@ export default {
   padding: 1.5rem;
   box-shadow: var(--tw-shadow);
   width: 90%;
-  height: 500px;
+  height: 700px;
   max-width: 900px;
   max-height: 700px;
   overflow-y: auto;
