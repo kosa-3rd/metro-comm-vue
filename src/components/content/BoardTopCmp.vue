@@ -1,9 +1,12 @@
 <template>
     <h3>BoardTop</h3>
+    <board-top-station-btn-cmp></board-top-station-btn-cmp>
 </template>
 
 <script>
-export default {};
+import BoardTopStationBtnCmp from './BoardTopStationBtnCmp.vue';
+export default {
+  components: { BoardTopStationBtnCmp },};
 </script>
 
 <style scoped></style>
