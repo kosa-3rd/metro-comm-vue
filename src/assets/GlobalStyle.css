@@ -1,5 +1,5 @@
 .header {
-    @apply h-32;
+    @apply h-28;
 }
 
 .logo {
@@ -63,4 +63,21 @@
     .nav {
         width: 100%;
     }
+}
+
+@keyframes vibration {
+    from {
+        transform: rotate(0.4deg);
+    }
+    to {
+        transform: rotate(-0.4deg);
+    }
+}
+
+.vibration-infinite {
+    animation: vibration 0.1s infinite;
+}
+
+.vibration-3 {
+    animation: vibration 0.1s 3;
 }
