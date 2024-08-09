@@ -10,7 +10,6 @@
 
 <script>
 import HeaderCmp from './components/header/HeaderCmp.vue';
-import BoardTopStationBtnCmp from './components/content/BoardTopStationBtnCmp.vue';
 import ContentCmp from './components/content/ContentCmp.vue';
 import NavCmp from './components/nav/NavCmp.vue';
 import FooterCmp from './components/footer/FooterCmp.vue';
@@ -19,7 +18,6 @@ export default {
   name: 'App',
   components: {
     HeaderCmp,
-    BoardTopStationBtnCmp,
     ContentCmp,
     NavCmp,
     FooterCmp,
