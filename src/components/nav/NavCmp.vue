@@ -3,9 +3,8 @@
     <router-link 
       to="/navmap" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('route')"
       exact
-      :class="{ active: isRouteActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['fas', 'code-branch']" class="nav-icon" />
       <p class="normal-text font-bold">노선도</p>
@@ -13,19 +12,17 @@
     <router-link 
       to="/" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('home')"
       exact
-      :class="{ active: isHomeActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['fas', 'train']" class="nav-icon" />
       <p class="normal-text font-bold">HOME</p>
     </router-link>
     <router-link 
-      to="/mypage" 
+      to="/my" 
       class="nav-item flex flex-col items-center flex-1 clickable"
-      @click="setActive('mypage')"
       exact
-      :class="{ active: isMyPageActive }"
+      active-class="active"
     >
       <font-awesome-icon :icon="['far', 'user']" class="nav-icon" />
       <p class="normal-text font-bold">마이페이지</p>

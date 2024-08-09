@@ -57,7 +57,7 @@ export default {
 
 <style scoped>
 .station-btn {
-    background-color: rgb(79, 79, 194);
+    background-color: rgb(96, 111, 184);
     color: white;
     padding: 8px 12px;
     margin: 5px;
@@ -98,7 +98,7 @@ export default {
 }
 
 /* 슬라이드 인/아웃 애니메이션 */
- .slide-leave-active {
+.slide-enter-active, .slide-leave-active {
     transition: all 0.2s ease;
     position: relative; /* 애니메이션이 원활하게 작동되도록 position 설정 */
 }
