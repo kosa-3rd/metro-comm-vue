@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 export const useUserStore = defineStore(
     'users',
     () => {
         const user = ref(null);
 
-        const authenticated = function () {
+        const authenticated = computed(() => {
             return user.value != null;
-        };
+        });
 
         const getUser = function () {
             return user.value;
