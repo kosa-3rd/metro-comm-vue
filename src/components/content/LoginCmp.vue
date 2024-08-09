@@ -78,15 +78,18 @@ const submit = async function () {
         email: emailInput.value,
         password: passwordInput.value,
     });
+
     await axios
         .post('/api/users/login', requestData, {
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-        .then((info) => {
+        .then(function (info) {
             console.log(info.data.email);
             userStore.login(info.data.email);
+        })
+        .then(() => {
             router.push('/');
         })
         .catch(() => {
@@ -94,8 +97,6 @@ const submit = async function () {
             tremble(document.getElementById('submit'));
             tremble(document.getElementById('sign-info'));
         });
-
-    console.log(userStore.authenticated);
 };
 </script>
 
