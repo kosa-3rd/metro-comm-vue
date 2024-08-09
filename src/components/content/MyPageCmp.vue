@@ -21,14 +21,7 @@
           </div>
           <button class="text-gray-500 font-semibold" @click="logout">로그아웃</button>
       </div>
-
-      <!-- 메뉴 항목들 -->
-      <ul class="menu-list">
-          <li class="menu-item border-b py-4 px-4">내가 쓴 글</li>
-          <li class="menu-item border-b py-4 px-4">비밀번호 변경</li>
-          <li class="menu-item border-b py-4 px-4">회원 탈퇴</li>
-      </ul>
-
+      <my-page-main-cmp></my-page-main-cmp>
 <!-- 하단 광고 섹션 -->
 <div class="px-4 py-4">
     <img src="../../assets/ad.png" alt="에듀윌은 합격이다" class="w-2/3 h-auto mx-auto"/>
@@ -37,7 +30,9 @@
 </template>
 
 <script>
+import MyPageMainCmp from './MyPageMainCmp.vue';
 export default {
+  components: { MyPageMainCmp },
   methods: {
       goPrev() {
           this.$router.push('/');
