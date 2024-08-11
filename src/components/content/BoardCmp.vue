@@ -1,10 +1,8 @@
 <template>
     <div>
-        <h3>Board</h3>
         <board-top-cmp></board-top-cmp>
         <board-post-cmp></board-post-cmp>
-        <div class="">
-        </div>
+        <div class=""></div>
     </div>
 </template>
 
@@ -19,5 +17,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
