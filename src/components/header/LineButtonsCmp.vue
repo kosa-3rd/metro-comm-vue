@@ -66,22 +66,6 @@ export default {
 </script>
 
 <style scoped>
-.line-buttons-container {
-    width: 100%;
-    overflow-x: auto;
-}
-
-.line-buttons {
-    display: flex;
-    white-space: nowrap;
-    align-items: center;
-    height: 5rem;
-}
-
-.line-buttons::-webkit-scrollbar {
-    display: none;
-}
-
 .station-btn {
     flex: 0 0 auto;
     margin-right: 0.5rem;
@@ -94,9 +78,38 @@ export default {
     color: white;
     font-weight: bold;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 말줄임표(...)로 처리 */
+}
+
+.line-buttons-container {
+    width: 100%;
+    overflow-x: auto;
+    
+}
+
+.line-buttons {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    height: 5rem;
+    
+    
+}
+
+.line-buttons::-webkit-scrollbar {
+    
+    display: none;
+}
+
+.station-btn:hover {
+    filter: brightness(0.6); /* 마우스 호버 시 색상 진하게 */
 }
 
 .text-white {
     color: white;
+    
+    
 }
 </style>
