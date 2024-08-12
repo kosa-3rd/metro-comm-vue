@@ -5,6 +5,7 @@
                 v-for="menu in visibleMenus" 
                 :key="menu.id" 
                 class="station-btn shared-btn"
+                :style="{ backgroundColor: menu.color }" 
                 @click="handleStationClick(menu.id, $event)" 
             >
                 {{ menu.name }}
@@ -73,6 +74,7 @@ export default {
                 this.menus = response.data.map(subwayId => ({
                     id: subwayId.id,
                     name: subwayId.name + '역',
+                    color: subwayId.color,  // 색상 정보 추가
                 }));
                 console.log("기모영Stations fetched:", this.menus);  // 역 데이터가 올바르게 받아졌는지 확인
             } catch (error) {
