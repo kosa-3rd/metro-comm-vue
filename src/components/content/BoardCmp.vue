@@ -1,9 +1,9 @@
 <template>
     <div>
         <board-top-cmp @lineSelected="handleLineSelected"></board-top-cmp>
-        <board-top-station-btn-cmp 
-            v-if="selectedLineId" 
-            :lineId="selectedLineId" 
+        <BoardTopStationBtnCmp 
+            v-if="selectedStationId" 
+            :stationId="selectedStationId" 
             @stationSelected="handleStationSelected"
         />
         <board-post-cmp></board-post-cmp>
@@ -23,19 +23,17 @@ export default {
     },
     data() {
         return {
-            selectedLineId: null,
+            selectedStationId: null,  // 선택된 역 ID를 저장
         };
     },
     methods: {
-        handleLineSelected(lineId) {
-            this.selectedLineId = lineId;
+        handleLineSelected(stationId) {
+            console.log('Station ID received in BoardCmp.vue:', stationId);  // stationId 로그 출력
+            this.selectedStationId = stationId;  // 선택된 역 ID를 저장
         },
         handleStationSelected(stationId) {
-            // 여기에서 역 선택 시의 동작을 정의합니다.
-            console.log('Selected Station ID:', stationId);
+            console.log('Selected Station ID:', stationId);  // 역 선택 시 동작
         }
     },
 };
 </script>
-
-<style scoped></style>

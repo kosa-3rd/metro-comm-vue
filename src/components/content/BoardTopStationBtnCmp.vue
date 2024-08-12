@@ -1,15 +1,14 @@
 <template>
-    <!-- 메뉴 버튼 -->
     <div>
         <transition-group name="slide" tag="div" class="grid grid-cols-4 gap-2 p-2">
             <button 
-    v-for="menu in visibleMenus" 
-    :key="menu.id" 
-    class="station-btn shared-btn"
-    @click="handleStationClick(menu.id)"
->
-    {{ menu.name }}
-</button>
+                v-for="menu in visibleMenus" 
+                :key="menu.id" 
+                class="station-btn shared-btn"
+                @click="handleStationClick(menu.id)"
+            >
+                {{ menu.name }}
+            </button>
         </transition-group>
     </div>
     <div class="flex justify-end pr-2">
@@ -24,49 +23,56 @@ import axios from 'axios';
 
 export default {
     props: {
-        lineId: {
+        stationId: {
             type: Number,
-            required: true,
+            required: true,  // stationId는 필수 prop
         },
     },
     data() {
         return {
-            menus: [],
-            isExpanded: false,
+            menus: [],  // 역 목록을 저장
+            isExpanded: false,  // 메뉴 확장 여부
         };
     },
     watch: {
-        lineId: {
-            immediate: true,
+        stationId: {
+            immediate: true,  // stationId 변경 시 즉시 반응
             handler(newVal) {
-                this.fetchStations(newVal);
+                console.log("New stationId received in BoardTopStationBtnCmp.vue:", newVal);  // stationId가 올바르게 전달되는지 확인
+                if (newVal) {
+                    this.fetchStations(newVal);  // 역 목록 가져오기
+                } else {
+                    console.error("Received invalid stationId:", newVal);
+                }
             }
         }
     },
     computed: {
         visibleMenus() {
-            return this.isExpanded ? this.menus : this.menus.slice(0, 8);
+            return this.isExpanded ? this.menus : this.menus.slice(0, 8);  // 메뉴 확장 여부에 따른 표시
         }
     },
     methods: {
-        async fetchStations(lineId) {
+        async fetchStations(stationId) {
             try {
-                const response = await axios.get(`api/station/list?subwayId=${lineId}`);
+                console.log("Fetching stations for stationId:", stationId);  // API 호출 전 log 추가
+                const response = await axios.get(`api/station/list?subwayId=${stationId}`);
                 this.menus = response.data.map(station => ({
                     id: station.id,
                     name: station.name,
                 }));
+                console.log("Stations fetched:", this.menus);  // 역 데이터가 올바르게 받아졌는지 확인
             } catch (error) {
                 console.error("Failed to fetch stations:", error);
             }
         },
         toggleMenu() {
-            this.isExpanded = !this.isExpanded;
+            this.isExpanded = !this.isExpanded;  // 메뉴 확장/축소
         },
         handleStationClick(stationId) {
-            this.$emit('stationSelected', stationId);
+            this.$emit('stationSelected', stationId);  // 역 선택 시 부모 컴포넌트로 전달
         }
-    },
+    }
 };
 </script>
 
