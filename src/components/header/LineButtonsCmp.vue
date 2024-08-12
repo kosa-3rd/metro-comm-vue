@@ -7,7 +7,7 @@
                     :key="station.id"
                     class="station-btn w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xs mx-2 text-white font-bold"
                     :style="{ backgroundColor: station.color }" 
-                    @click="updateLineName(station.name, station.color)"
+                    @click="handleLineClick(station.id, station.name, station.color)"
                 >
                     {{ station.name }}
                 </div>
@@ -39,11 +39,15 @@ export default {
                 }));
             } catch (error) {
                 console.error("Failed to fetch subway lines:", error);
-                // 오류 발생 시 기본값 유지
             }
         },
-        updateLineName(stationName, stationColor) {
-            this.$emit('lineNameUpdated', stationName, stationColor);
+        handleLineClick(stationId, lineName, lineColor) {
+            console.log('Station ID emitted from LineButtonsCmp.vue:', stationId);  // 로그 추가
+            this.$emit('lineNameUpdated', lineName, lineColor);
+            this.$emit('stationIdSelected', stationId); // stationId를 부모 컴포넌트로 전달
+            this.$router.push({ 
+                path: `/${stationId}` 
+            });
         },
     },
 };
