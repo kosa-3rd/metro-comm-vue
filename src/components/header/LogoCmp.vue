@@ -1,14 +1,12 @@
 <template>
     <div class="header flex items-center">
-        <div :class="['flex-grow', lineColor, transitionClass]"></div>
-        <!-- transitionClass 추가 -->
-        <div :class="['logo', borderColor, transitionClass]">
-            <!-- transitionClass 추가 -->
+        <!-- 인라인 스타일로 배경색과 테두리 색상 적용 -->
+        <div :style="{ backgroundColor: computedLineColor }" class="flex-grow"></div>
+        <div :style="{ borderColor: computedBorderColor, backgroundColor: 'white' }" class="logo border-8">
             <span :class="['h-text', textColor]">{{ lineName }}</span>
             <span class="text-sm">METRO COMMUNITY</span>
         </div>
-        <div :class="['flex-grow', lineColor, transitionClass]"></div>
-        <!-- transitionClass 추가 -->
+        <div :style="{ backgroundColor: computedLineColor }" class="flex-grow"></div>
     </div>
 </template>
 
@@ -29,8 +27,16 @@ export default {
         },
     },
     computed: {
+        computedLineColor() {
+            // 기본 검정색 처리
+            return this.lineName === 'MeCo' ? '#000000' : this.lineColor;
+        },
+        computedBorderColor() {
+            // 기본 검정색 테두리 처리
+            return this.lineName === 'MeCo' ? '#000000' : this.borderColor;
+        },
         textColor() {
-            return this.lineName === 'MeCo' ? 'text-black' : 'text-black';
+            return 'text-black'; // 기본 텍스트 색상 유지
         },
         transitionClass() {
             return 'transition-colors duration-500 ease-in-out';

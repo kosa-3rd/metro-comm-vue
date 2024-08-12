@@ -1,15 +1,18 @@
 <!-- 
- 작성자: 양건모 
+ 담당자: 양건모 
  시작 일자: 2024.08.07
+ 설명 : 회원 가입 컴포넌트
  ---------------------
- 2024.08.08 기능 구현 완료
+ 2024.08.08 양건모 | 기능 구현 완료
  
  -->
 <template>
     <div id="register-wrapper">
         <div id="page-info">
-            <h3 class="h-mid-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h3>
-            <h2 class="h-large-text font-bold">MECO</h2>
+            <h2 class="h-large-text font-bold">MeCo</h2>
+            <br>
+
+            <h4 class="h-mid-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h4>
         </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
