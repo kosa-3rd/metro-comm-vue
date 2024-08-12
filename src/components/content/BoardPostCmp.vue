@@ -246,18 +246,4 @@ export default {
   min-width: 30px;
   text-align: right;
 }
-
-/* Hover 스타일 추가 */
-button:hover {
-  background-color: #4b5563; /* 호버 시 배경색을 어두운 회색으로 변경 */
-  color: #ffffff; /* 호버 시 텍스트 색상을 흰색으로 유지 */
-}
-
-li p {
-  word-break: break-all; /* 단어를 문자 단위로 자름 */
-  overflow-wrap: break-word; /* 긴 단어가 있을 때 줄을 바꿈 */
-  white-space: pre-wrap; /* 공백을 유지하면서 줄을 바꿈 */
-  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 '...'으로 표시 */
-  overflow: hidden; /* 넘치는 텍스트를 숨김 */
-}
 </style>

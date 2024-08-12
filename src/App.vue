@@ -34,7 +34,23 @@ export default {
             borderColor: 'border-black',
         };
     },
+    mounted() {
+        this.initializeFromLocalStorage();
+    },
     methods: {
+        initializeFromLocalStorage() {
+            // 로컬 스토리지에서 값 불러오기
+            const savedLineName = localStorage.getItem('lineName');
+            const savedLineColor = localStorage.getItem('lineColor');
+            const savedBorderColor = localStorage.getItem('borderColor');
+
+            // 로컬 스토리지에 저장된 값이 있으면 상태를 업데이트
+            if (savedLineName && savedLineColor && savedBorderColor) {
+                this.lineName = savedLineName;
+                this.lineColor = savedLineColor;
+                this.borderColor = savedBorderColor;
+            }
+        },
         updateLineName(newLineName, newLineColor) {
             this.lineName = newLineName;
             this.lineColor = newLineColor;
