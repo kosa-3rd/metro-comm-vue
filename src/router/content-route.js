@@ -5,7 +5,7 @@ import RegisterCmp from '@/components/content/RegisterCmp.vue';
 
 export default [
     {
-        path: '/:station(\\d+)?', //(\\d+) => 숫자 형태만 올 수있는 정규식
+        path: '/:subwayId(\\d+)?', //(\\d+) => 숫자 형태만 올 수있는 정규식
         component: BoardCmp,
         props: true,
     },
