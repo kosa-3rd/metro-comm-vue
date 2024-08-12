@@ -6,7 +6,7 @@
                     v-for="station in stations"
                     :key="station.id"
                     class="station-btn w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xs mx-2 text-white font-bold"
-                    :style="{ backgroundColor: station.color }" 
+                    :style="{ backgroundColor: station.color }"
                     @click="handleLineClick(station.id, station.name, station.color)"
                 >
                     {{ station.name }}
@@ -35,19 +35,31 @@ export default {
                 this.stations = response.data.map(line => ({
                     id: line.id,
                     name: line.name,
-                    color: line.color,  // 색상 코드를 그대로 사용
+                    color: line.color,
                 }));
             } catch (error) {
                 console.error("Failed to fetch subway lines:", error);
             }
         },
         handleLineClick(stationId, lineName, lineColor) {
-            console.log('Station ID emitted from LineButtonsCmp.vue:', stationId);  // 로그 추가
+            console.log('Station ID emitted from LineButtonsCmp.vue:', stationId);
+
+            // 부모 컴포넌트로 이벤트 전달
             this.$emit('lineNameUpdated', lineName, lineColor);
-            this.$emit('stationIdSelected', stationId); // stationId를 부모 컴포넌트로 전달
+            this.$emit('stationIdSelected', stationId);
+
+            // 로컬 스토리지에 저장
+            localStorage.setItem('lineName', lineName);
+            localStorage.setItem('lineColor', lineColor);
+            localStorage.setItem('borderColor', this.computeBorderColor(lineColor));
+
+            // 라우터 이동
             this.$router.push({ 
                 path: `/${stationId}` 
             });
+        },
+        computeBorderColor(lineColor) {
+            return lineColor.replace('bg-', 'border-');
         },
     },
 };

@@ -34,7 +34,11 @@ export default {
             isExpanded: false,  // 메뉴 확장 여부
         };
     },
+    created() {
+        this.fetchStations()
+    },
     watch: {
+        '$route': 'fetchStations',
         stationId: {
             immediate: true,  // stationId 변경 시 즉시 반응
             handler(newVal) {
@@ -53,17 +57,18 @@ export default {
         }
     },
     methods: {
-        async fetchStations(stationId) {
+
+        async fetchStations() {
             try {
-                console.log("Fetching stations for stationId:", stationId);  // API 호출 전 log 추가
-                const response = await axios.get(`api/station/list?subwayId=${stationId}`);
-                this.menus = response.data.map(station => ({
-                    id: station.id,
-                    name: station.name,
+                console.log("Fetching stations for stationId:", this.$route.params.subwayId);  // API 호출 전 log 추가
+                const response = await axios.get(`/api/station/list?subwayId=${this.$route.params.subwayId}`);
+                this.menus = response.data.map(subwayId => ({
+                    id: subwayId.id,
+                    name: subwayId.name,
                 }));
-                console.log("Stations fetched:", this.menus);  // 역 데이터가 올바르게 받아졌는지 확인
+                console.log("기모영Stations fetched:", this.menus);  // 역 데이터가 올바르게 받아졌는지 확인
             } catch (error) {
-                console.error("Failed to fetch stations:", error);
+                console.error("기모영Failed to fetch stations:", error);
             }
         },
         toggleMenu() {
