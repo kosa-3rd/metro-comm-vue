@@ -2,9 +2,14 @@
     <!-- 메뉴 버튼 -->
     <div>
         <transition-group name="slide" tag="div" class="grid grid-cols-4 gap-2 p-2">
-            <button v-for="(menu, index) in visibleMenus" :key="index" class="station-btn shared-btn">
-                {{ menu }}
-            </button>
+            <button 
+    v-for="menu in visibleMenus" 
+    :key="menu.id" 
+    class="station-btn shared-btn"
+    @click="handleStationClick(menu.id)"
+>
+    {{ menu.name }}
+</button>
         </transition-group>
     </div>
     <div class="flex justify-end pr-2">
@@ -15,30 +20,28 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
-    
+    props: {
+        lineId: {
+            type: Number,
+            required: true,
+        },
+    },
     data() {
         return {
-            menus: [
-                '서울역',
-                '금정역',
-                '동대문',
-                '로그인',
-                '로그인',
-                '서울역',
-                '금정역',
-                '동대문',
-                '로그인',
-                '로그인',
-                '버튼1',
-                '버튼이름은',
-                '오육칠팔구',
-                '213',
-                '123213',
-                'exn'
-            ],
-            isExpanded: false, // 기본 상태는 메뉴가 접힌 상태
+            menus: [],
+            isExpanded: false,
         };
+    },
+    watch: {
+        lineId: {
+            immediate: true,
+            handler(newVal) {
+                this.fetchStations(newVal);
+            }
+        }
     },
     computed: {
         visibleMenus() {
@@ -46,12 +49,24 @@ export default {
         }
     },
     methods: {
+        async fetchStations(lineId) {
+            try {
+                const response = await axios.get(`api/station/list?subwayId=${lineId}`);
+                this.menus = response.data.map(station => ({
+                    id: station.id,
+                    name: station.name,
+                }));
+            } catch (error) {
+                console.error("Failed to fetch stations:", error);
+            }
+        },
         toggleMenu() {
             this.isExpanded = !this.isExpanded;
         },
+        handleStationClick(stationId) {
+            this.$emit('stationSelected', stationId);
+        }
     },
-
-    
 };
 </script>
 
@@ -66,9 +81,9 @@ export default {
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 80px; /* 버튼의 최소 너비 설정 */
-    text-align: center; /* 텍스트 중앙 정렬 */
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
 }
 
 .station-btn:hover {
@@ -85,32 +100,31 @@ export default {
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    white-space: nowrap; /* 줄바꿈 방지 */
-    min-width: 80px; /* 버튼의 최소 너비 설정 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    text-decoration: underline; /* 밑줄 추가 */
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+    text-decoration: underline;
 }
 
 .toggle-btn:hover {
     background-color: transparent;
     color: #424242;
-    text-decoration: underline; /* 호버 시에도 밑줄 유지 */
+    text-decoration: underline;
 }
 
-/* 슬라이드 인/아웃 애니메이션 */
 .slide-enter-active, .slide-leave-active {
     transition: all 0.2s ease;
-    position: relative; /* 애니메이션이 원활하게 작동되도록 position 설정 */
+    position: relative;
 }
 
 .slide-leave {
-    transform: translateY(0); /* 시작 위치 */
-    opacity: 1; /* 시작 상태는 불투명 */
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .slide-leave-to {
-    transform: translateY(-5px); /* 접기 시 위로 슬라이드 아웃 */
-    opacity: 0; /* 사라질 때 투명해짐 */
+    transform: translateY(-5px);
+    opacity: 0;
 }
 
 @media (max-width: 500px) {
@@ -119,15 +133,15 @@ export default {
     }
 
     .shared-btn {
-        font-size: 12px; /* 작은 화면에서 글자 크기 조정 */
-        padding: 6px 10px; /* 작은 화면에서 패딩 조정 */
-        min-width: 70px; /* 작은 화면에서 버튼 너비 조정 */
+        font-size: 12px;
+        padding: 6px 10px;
+        min-width: 70px;
     }
 }
 
 @media (max-width: 390px) {
     .grid-cols-4 {
-        grid-template-columns: repeat(4, 1fr); /* 매우 작은 화면에서도 4열로 유지 */
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 </style>

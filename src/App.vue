@@ -44,6 +44,14 @@ export default {
             return lineColor.replace('bg-', 'border-');
         },
     },
+
+    updateLineName(newLineName, newLineColor) {
+    console.log('Updating lineName:', newLineName, newLineColor); // 업데이트 확인용 로그
+    this.lineName = newLineName;
+    this.lineColor = newLineColor;
+    this.borderColor = this.computeBorderColor(newLineColor);
+    console.log('Computed borderColor:', this.borderColor); // 테두리 색상 로그
+}
 };
 </script>
 
