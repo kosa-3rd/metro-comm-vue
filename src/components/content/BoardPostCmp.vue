@@ -74,15 +74,15 @@
         v-model="selectedCategory"
         class="w-[180px] p-2 border rounded-lg mb-4"
       >
-        <option value="" disabled>호선을 선택하세요</option>
-        <option value="line1">1호선</option>
-        <option value="line2">2호선</option>
-        <option value="line3">3호선</option>
-        <option value="line4">4호선</option>
-        <option value="line5">5호선</option>
-        <option value="line6">6호선</option>
-        <option value="line7">7호선</option>
-        <option value="line8">8호선</option>
+        <option value="" disabled>역을 선택하세요</option>
+        <option value="line1">노량진</option>
+        <option value="line2">가산디지털단지</option>
+        <option value="line3">광명</option>
+        <option value="line4">금천구청</option>
+        <option value="line5">서울역</option>
+        <option value="line6">시청</option>
+        <option value="line7">종로3가</option>
+        <option value="line8">동대문</option>
       </select>
 
       <!-- 게시글 작성 텍스트 에리어 -->
@@ -194,7 +194,7 @@ export default {
           .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
 
         this.posts.unshift({
-          title: `${this.selectedCategory} - ${this.newPostContent}`,
+          title: `${this.newPostContent}`,
           author: "username",
           date: formattedDate,
           likes: 0,
@@ -251,5 +251,13 @@ export default {
 button:hover {
   background-color: #4b5563; /* 호버 시 배경색을 어두운 회색으로 변경 */
   color: #ffffff; /* 호버 시 텍스트 색상을 흰색으로 유지 */
+}
+
+li p {
+  word-break: break-all; /* 단어를 문자 단위로 자름 */
+  overflow-wrap: break-word; /* 긴 단어가 있을 때 줄을 바꿈 */
+  white-space: pre-wrap; /* 공백을 유지하면서 줄을 바꿈 */
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 '...'으로 표시 */
+  overflow: hidden; /* 넘치는 텍스트를 숨김 */
 }
 </style>
