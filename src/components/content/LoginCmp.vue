@@ -64,6 +64,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { useUserStore } from '@/store/user-store';
 import router from '@/router';
+import tempMember from '../../../public/member';
 
 const emailInput = ref('');
 const passwordInput = ref('');
@@ -97,6 +98,14 @@ const submit = async function () {
             router.push('/');
         })
         .catch(() => {
+            console.log(tempMember.email + ' ' + tempMember.password);
+            console.log(emailInput.value + ' ' + passwordInput.value);
+
+            if (tempMember.email == emailInput.value && tempMember.password == passwordInput.value) {
+                userStore.login(tempMember.email);
+                router.push('/');
+            }
+
             document.getElementById('err').style.visibility = 'visible';
             tremble(document.getElementById('submit'));
             tremble(document.getElementById('sign-info'));
