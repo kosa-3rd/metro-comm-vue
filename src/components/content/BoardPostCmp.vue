@@ -46,7 +46,7 @@
   <!-- 글 쓰기 Button -->
   <button
     @click="openModal"
-    class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50"
+    class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50 hover:bg-gray-600"
   >
     <span class="material-icons mr-2 write-icon">edit</span>
     <span class="text-sm align-middle">글 쓰기</span>
@@ -245,5 +245,11 @@ export default {
 .likes-count {
   min-width: 30px;
   text-align: right;
+}
+
+/* Hover 스타일 추가 */
+button:hover {
+  background-color: #4b5563; /* 호버 시 배경색을 어두운 회색으로 변경 */
+  color: #ffffff; /* 호버 시 텍스트 색상을 흰색으로 유지 */
 }
 </style>
