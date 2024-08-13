@@ -119,7 +119,7 @@
     @click.self="closeConfirm"
   >
     <div
-      class="bg-white w-full max-w-[300px] p-6 rounded-lg shadow-lg relative"
+      class="bg-white w-full max-w-[350px] p-6 rounded-lg shadow-lg relative"
       @click.stop
     >
       <h2 class="text-lg font-bold mb-4">게시글 확인</h2>
