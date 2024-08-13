@@ -5,7 +5,8 @@
                 <div
                     v-for="station in stations"
                     :key="station.id"
-                    class="station-btn w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xs mx-2 text-white font-bold"
+                    :class="['station-btn', { 'active': activeStationId === station.id }]" 
+                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xs mx-2 text-white font-bold"
                     :style="{ backgroundColor: station.color }"
                     @click="handleLineClick(station.id, station.name, station.color)"
                 >
@@ -23,6 +24,7 @@ export default {
     data() {
         return {
             stations: [],
+            activeStationId: null, // 클릭된 버튼의 ID를 저장하는 상태 추가
         };
     },
     mounted() {
@@ -42,6 +44,8 @@ export default {
             }
         },
         handleLineClick(stationId, lineName, lineColor) {
+            this.activeStationId = stationId; // 클릭된 버튼의 ID를 활성화 상태로 설정
+
             console.log('Station ID emitted from LineButtonsCmp.vue:', stationId);
 
             // 부모 컴포넌트로 이벤트 전달
@@ -83,10 +87,13 @@ export default {
     text-overflow: ellipsis; /* 넘치는 텍스트를 말줄임표(...)로 처리 */
 }
 
+.station-btn.active {
+    filter: brightness(0.6); /* 클릭된 상태에서 색상을 진하게 처리 */
+}
+
 .line-buttons-container {
     width: 100%;
     overflow-x: auto;
-    
 }
 
 .line-buttons {
@@ -94,12 +101,9 @@ export default {
     white-space: nowrap;
     align-items: center;
     height: 5rem;
-    
-    
 }
 
 .line-buttons::-webkit-scrollbar {
-    
     display: none;
 }
 
@@ -109,7 +113,5 @@ export default {
 
 .text-white {
     color: white;
-    
-    
 }
 </style>
