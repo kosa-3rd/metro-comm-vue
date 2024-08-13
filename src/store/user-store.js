@@ -18,7 +18,7 @@ export const useUserStore = defineStore(
         };
 
         const getAuth = function () {
-            return user.value.password;
+            return user.value.token;
         };
 
         const login = function (info) {
