@@ -255,14 +255,12 @@ export default {
 }
 
 form {
-    padding-top: 3rem;
     padding-bottom: 3rem;
 }
 .form-image {
     display: block;
     width: 10rem; /* 이미지 크기 설정 */
     height: 10rem; /* 이미지 크기 설정 */
-    margin-bottom: 2rem; /* 이미지와 입력 필드 간의 간격 조정 */
 }
 
 #register-wrapper {
