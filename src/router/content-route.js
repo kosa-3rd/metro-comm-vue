@@ -2,7 +2,6 @@ import BoardCmp from '@/components/content/BoardCmp.vue';
 import MyPageCmp from '@/components/content/MyPageCmp.vue';
 import LoginCmp from '@/components/content/LoginCmp.vue';
 import RegisterCmp from '@/components/content/RegisterCmp.vue';
-
 export default [
     {
         path: '/:subwayId(\\d+)?', //(\\d+) => 숫자 형태만 올 수있는 정규식
@@ -12,6 +11,7 @@ export default [
     {
         path: '/my',
         component: MyPageCmp,
+
     },
     {
         path: '/login',

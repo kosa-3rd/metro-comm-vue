@@ -8,11 +8,15 @@
  -->
 <template>
     <div id="register-wrapper">
-        <div id="page-info">
-            <h2 class="h-large-text font-bold">MeCo</h2>
-            <br>
-
-            <h4 class="h-mid-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h4>
+        <div id="upper-compo">
+            <div id="upper-compo-left" class="w-6 mb-4 mt-4">
+            </div>
+            <div id="upper-compo-center">
+                <h3 id="sign-info" class="text-xl font-semibold text-center mb-4 mt-4">회원가입</h3>
+                <br>
+                <h4 class="h-sm-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h4>
+            </div>
+            <div id="upper-compo-right" class="w-6"></div>
         </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
@@ -250,5 +254,13 @@ form {
 
 #register-wrapper {
     @apply mb-24;
+}
+
+#upper-compo {
+    justify-content: space-between;
+    margin: 0 2rem 0 2rem;
+    @apply flex mb-4 mt-4 pb-0;
+    border-bottom: 1px solid #e5e5e5; /* 선 추가 */
+    border-top: 1px solid #e5e5e5;
 }
 </style>

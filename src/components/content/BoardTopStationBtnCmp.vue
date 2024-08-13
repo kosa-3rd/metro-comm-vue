@@ -131,7 +131,7 @@ export default {
     padding: 1px 2px;
     margin: 2px;
     border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.2); /* 테두리 색 및 두께 */
+    border: 1.5px solid rgba(0, 0, 0, 0.1); /* 테두리 색 및 두께 */
     cursor: pointer;
     font-size: 12px;
     min-width: 80px;
@@ -141,8 +141,8 @@ export default {
 
 .station-btn.active {
     font-weight: bolder; /* 클릭된 버튼의 텍스트를 더 두껍게 처리 */
-    color: #2e21e7; /* 클릭된 상태에서의 텍스트 색상 */
-    border-color: #2e21e7; /* 클릭된 상태에서의 테두리 색상 */
+    color: #114eb0; /* 클릭된 상태에서의 텍스트 색상 */
+    border-color: #3b82f6; /* 클릭된 상태에서의 테두리 색상 */
 }
 
 .station-btn span {
@@ -158,14 +158,14 @@ export default {
 }
 
 .station-btn:hover {
-    border-color: #2e21e7; /* 테두리 색을 원하는 색상으로 변경 */
-    color: #2e21e7; /* 글자 색을 원하는 색상으로 변경 */
+    border-color: #3b82f6; /* 테두리 색을 원하는 색상으로 변경 */
+    color: #114eb0; /* 글자 색을 원하는 색상으로 변경 */
 }
 
 .station-btn:active {
     font-weight: bolder; /* 클릭 시 텍스트를 더 두껍게 처리 */
-    color: #2e21e7; /* 클릭 시에도 글자 색상 유지 */
-    border-color: #2e21e7; /* 클릭 시 테두리 색상 유지 */
+    color: #114eb0; /* 클릭 시에도 글자 색상 유지 */
+    border-color: #3b82f6; /* 클릭 시 테두리 색상 유지 */
 }
 
 .toggle-btn {    /* 접기 펼치기 버튼 */
