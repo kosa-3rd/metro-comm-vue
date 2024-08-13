@@ -3,14 +3,13 @@
         <router-link
             to="/navmap"
             class="nav-item flex flex-col items-center flex-1 clickable"
-            exact
             active-class="active"
         >
             <font-awesome-icon :icon="['fas', 'code-branch']" class="nav-icon" />
             <p class="normal-text font-bold">노선도</p>
         </router-link>
 
-        <router-link to="/" class="nav-item flex flex-col items-center flex-1 clickable" exact active-class="active">
+        <router-link to="/" class="nav-item flex flex-col items-center flex-1 clickable" active-class="active">
             <font-awesome-icon :icon="['fas', 'train']" class="nav-icon" />
             <p class="normal-text font-bold">HOME</p>
         </router-link>
@@ -19,7 +18,6 @@
             v-if="isAuthenticated"
             to="/my"
             class="nav-item flex flex-col items-center flex-1 clickable"
-            exact
             active-class="active"
         >
             <font-awesome-icon :icon="['far', 'user']" class="nav-icon" />
@@ -30,7 +28,6 @@
             v-else
             to="/login"
             class="nav-item flex flex-col items-center flex-1 clickable"
-            exact
             active-class="active"
         >
             <font-awesome-icon :icon="['fas', 'user-lock']" class="nav-icon" />

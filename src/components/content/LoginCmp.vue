@@ -91,8 +91,8 @@ const submit = async function () {
             },
         })
         .then(function (info) {
-            console.log(info.data.email);
-            userStore.login(info.data.email);
+            console.log('Server response:', info.data); // 서버 응답 확인
+            userStore.login(info.data.email, info.data.username);
         })
         .then(() => {
             router.push('/');
@@ -102,7 +102,7 @@ const submit = async function () {
             console.log(emailInput.value + ' ' + passwordInput.value);
 
             if (tempMember.email == emailInput.value && tempMember.password == passwordInput.value) {
-                userStore.login(tempMember.email);
+                userStore.login(tempMember.email, tempMember.username);
                 router.push('/');
             }
 
