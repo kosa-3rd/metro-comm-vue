@@ -45,6 +45,7 @@
 
   <!-- 글 쓰기 Button -->
   <button
+    v-if="isAuthenticated"
     @click="openModal"
     class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50 hover:bg-gray-600"
   >
@@ -75,14 +76,13 @@
         class="w-[180px] p-2 border rounded-lg mb-4"
       >
         <option value="" disabled>역을 선택하세요</option>
-        <option value="line1">노량진</option>
-        <option value="line2">가산디지털단지</option>
-        <option value="line3">광명</option>
-        <option value="line4">금천구청</option>
-        <option value="line5">서울역</option>
-        <option value="line6">시청</option>
-        <option value="line7">종로3가</option>
-        <option value="line8">동대문</option>
+        <option
+          v-for="station in stations"
+          :key="station.id"
+          :value="station.name"
+        >
+          {{ station.name }}
+        </option>
       </select>
 
       <!-- 게시글 작성 텍스트 에리어 -->
@@ -109,35 +109,27 @@
       </div>
     </div>
   </div>
-
-  <!-- 작성 확인 Modal -->
-  <div
-    v-if="isConfirmOpen"
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-  >
-    <div class="bg-white p-6 rounded-lg shadow-lg">
-      <h2 class="text-lg font-bold mb-4">게시글 작성</h2>
-      <p class="mb-6">게시글 작성을 완료하시겠습니까?</p>
-      <div class="flex justify-center">
-        <button
-          @click="submitPost"
-          class="bg-blue-500 text-white py-2 px-6 rounded-lg mr-4"
-        >
-          확인
-        </button>
-        <button @click="closeConfirm" class="bg-gray-200 py-2 px-6 rounded-lg">
-          취소
-        </button>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script>
+import { useUserStore } from "@/store/user-store";
+import { computed } from "vue";
+import axios from "axios";
+
 export default {
+  setup() {
+    const userStore = useUserStore();
+    const isAuthenticated = computed(() => userStore.authenticated);
+
+    return {
+      isAuthenticated,
+    };
+  },
   data() {
     return {
+      stations: [], // 역 목록을 저장할 배열
       posts: [
+        // 초기 게시글 목록
         {
           title: "1호선 연착입니다~~~~~~!!!!!!!!",
           author: "username",
@@ -151,14 +143,6 @@ export default {
           date: "08/04 22:00",
           likes: 340,
         },
-        {
-          title:
-            "최대 몇 글자까지 작성 가능케할지 고민입니다. 글자 수를 적게 지정 해놓는 게 좋을 듯 싶은데",
-          author: "username",
-          date: "08/04 22:00",
-          likes: 340,
-        },
-        // 다른 게시글 데이터 추가
       ],
       isModalOpen: false, // 모달 상태 변수
       isConfirmOpen: false, // 작성 확인 모달 상태 변수
@@ -167,8 +151,19 @@ export default {
     };
   },
   methods: {
+    async getStations() {
+      try {
+        const result = await axios.get(
+          `/api/station/list?subwayId=${this.$route.params.subwayId}`
+        );
+        this.stations = result.data; // 역 데이터를 저장
+      } catch (err) {
+        console.log(err);
+      }
+    },
     openModal() {
       this.isModalOpen = true;
+      this.getStations(); // 모달 열릴 때 역 데이터를 가져옴
     },
     closeModal() {
       this.isModalOpen = false;
@@ -205,7 +200,6 @@ export default {
         this.closeModal();
       }
     },
-    // 글자 수 제한
     checkLength() {
       if (this.newPostContent.length > 100) {
         this.newPostContent = this.newPostContent.slice(0, 100);

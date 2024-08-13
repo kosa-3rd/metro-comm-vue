@@ -91,8 +91,8 @@ const submit = async function () {
             },
         })
         .then(function (info) {
-            console.log(info.data.email);
-            userStore.login(info.data.email);
+            console.log(info.data);
+            userStore.login(info.data);
         })
         .then(() => {
             router.push('/');
@@ -100,11 +100,6 @@ const submit = async function () {
         .catch(() => {
             console.log(tempMember.email + ' ' + tempMember.password);
             console.log(emailInput.value + ' ' + passwordInput.value);
-
-            if (tempMember.email == emailInput.value && tempMember.password == passwordInput.value) {
-                userStore.login(tempMember.email);
-                router.push('/');
-            }
 
             document.getElementById('err').style.visibility = 'visible';
             tremble(document.getElementById('submit'));
