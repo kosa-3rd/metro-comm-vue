@@ -26,6 +26,11 @@ export default {
         updateLineId(lineId) {
             this.$emit('lineIdUpdated', lineId);  // Line ID를 상위로 전달
         }
+    },
+    beforeRouteUpdate (to, from, next) {
+        // 라우터가 변경될 때 컴포넌트를 다시 로드하도록 함
+        this.$forceUpdate();
+        next();
     }
 };
 </script>

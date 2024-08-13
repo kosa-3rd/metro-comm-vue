@@ -26,7 +26,7 @@
       <div class="px-4 py-4">
         <form @submit.prevent="submitForm">
           <div class="mb-4">
-            <label class="form-label">회원 탈퇴 이유에 대해 설명해주시오. <span class="text-red-500">*</span></label>
+            <label class="form-label">회원 탈퇴 이유에 대해 설명해주시오. <span class="text-red-500">*필수</span></label>
             <div v-for="(reason, index) in reasons" :key="index">
               <input type="radio" :id="'reason' + index" v-model="selectedReason" :value="reason" />
               <label :for="'reason' + index">{{ reason }}</label>
@@ -48,7 +48,7 @@
             <input type="password" id="confirmPassword" v-model="confirmPassword" required class="input-box" />
           </div>
   
-          <button type="submit" class="bg-blue-500 text-white p-2 rounded clickable">탈퇴</button>
+          <button type="submit" class="bg-blue-500 text-white p-2 rounded clickable">탈퇴하기</button>
         </form>
       </div>
     </div>
