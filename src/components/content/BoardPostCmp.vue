@@ -74,6 +74,7 @@
       <select
         v-model="selectedCategory"
         class="w-[180px] p-2 border rounded-lg mb-4"
+        v-bind="stations"
       >
         <option value="" disabled>역을 선택하세요</option>
         <option
@@ -93,6 +94,7 @@
         placeholder="게시글을 작성해 주세요"
         @input="checkLength"
         maxlength="100"
+        v-bind="content"
       ></textarea>
       <div class="text-right text-sm text-gray-500">
         {{ newPostContent.length }}/100
@@ -120,13 +122,20 @@ export default {
   setup() {
     const userStore = useUserStore();
     const isAuthenticated = computed(() => userStore.authenticated);
+    const getAuth = computed(() => userStore.getAuth);
 
     return {
       isAuthenticated,
+      getAuth,
     };
   },
   data() {
     return {
+      reqData: {
+        title: "전송",
+        content: "",
+        station: "",
+      },
       stations: [], // 역 목록을 저장할 배열
       posts: [
         // 초기 게시글 목록
@@ -168,11 +177,33 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    confirmSubmit() {
+    async confirmSubmit() {
+      console.log("토큰 " + this.getAuth.values);
       if (!this.newPostContent.trim() || !this.selectedCategory) {
         alert("호선과 내용을 모두 입력해 주세요.");
       } else {
         this.isConfirmOpen = true;
+        try {
+          const response = await axios.post(
+            "/api/comments",
+            {
+              title: "전송",
+              content: this.newPostContent,
+              station: this.selectedCategory,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `${this.getAuth}`, // Bearer 추가
+              },
+            }
+          );
+          console.log(response.data);
+          this.closeConfirm();
+        } catch (e) {
+          console.log(this.getAuth.value);
+          console.log(e);
+        }
       }
     },
     closeConfirm() {
