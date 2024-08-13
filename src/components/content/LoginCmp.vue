@@ -3,8 +3,9 @@
  시작 일자: 2024.08.08
  설명 : 로그인 컴포넌트
  ---------------------
- 2024.08.09 양건모 | 기능 구현 완료
+ 2024.08.09 양건모 | 기능 구현
  2024.08.09 양건모 | 디자인 수정, 회원가입 링크 추가
+ 2024.08.14 양건모 | 로그인 성공시 이전의 페이지로 이동하도록 설정
  
  -->
  <template>
@@ -96,7 +97,7 @@ const submit = async function () {
             userStore.login(info.data);
         })
         .then(() => {
-            router.push('/');
+            router.go(-1);
         })
         .catch(() => {
             console.log(tempMember.email + ' ' + tempMember.password);

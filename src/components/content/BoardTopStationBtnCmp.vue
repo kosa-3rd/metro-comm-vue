@@ -1,3 +1,12 @@
+<!-- 
+ 담당자: 김호영
+ 시작 일자: 2024.08.
+ 설명 : 역 버튼 컴포넌트
+ ---------------------
+ 2024.08.12 양건모 | 역 버튼 클릭시 queryString 추가
+ 
+ -->
+
 <template>
     <div id="buttonArea">
         <transition-group name="zoom" tag="div" class="grid grid-cols-3 gap-2 p-2">
@@ -5,7 +14,7 @@
                 <button
                     v-for="menu in visibleMenus"
                     :key="menu.id"
-                    :class="['station-btn', 'clickable', { 'active': activeStationId === menu.id }]" 
+                    :class="['station-btn', 'clickable', { active: activeStationId === menu.id }]"
                     @click="handleStationClick(menu.id, menu.name, $event)"
                 >
                     {{ menu.name }}
@@ -121,7 +130,6 @@ export default {
 </script>
 
 <style scoped>
-
 #buttonArea {
     max-height: 250px;
     overflow: scroll;
@@ -174,7 +182,8 @@ export default {
     border-color: #3b82f6; /* 클릭 시 테두리 색상 유지 */
 }
 
-.toggle-btn {    /* 접기 펼치기 버튼 */
+.toggle-btn {
+    /* 접기 펼치기 버튼 */
     background-color: transparent;
     color: #424242;
     padding: 8px 12px;

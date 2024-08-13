@@ -1,3 +1,13 @@
+/*
+ 담당자: 양건모 
+ 시작 일자: 2024.08.09
+ 설명 : 로그인 정보 저장 store
+ ---------------------
+ 2024.08.09 양건모 | 기능 구현
+ 2024.08.13 양건모 | 속성 추가, 로그인/아웃 함수 수정
+ 
+*/
+
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import axios from 'axios';
