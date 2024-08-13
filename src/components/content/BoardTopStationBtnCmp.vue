@@ -4,7 +4,7 @@
             <button
                 v-for="menu in visibleMenus"
                 :key="menu.id"
-                class="station-btn shared-btn"
+                :class="['station-btn', 'clickable', { 'active': activeStationId === menu.id }]" 
                 @click="handleStationClick(menu.id, menu.name, $event)"
             >
                 {{ menu.name }}
@@ -12,7 +12,7 @@
         </transition-group>
     </div>
     <div class="flex justify-end pr-2">
-        <button @click="toggleMenu" class="toggle-btn shared-btn">
+        <button @click="toggleMenu" class="toggle-btn text-gray-500 font-thin text-xs">
             {{ isExpanded ? '접기' : '펼치기' }}
         </button>
     </div>
@@ -27,12 +27,14 @@ export default {
             type: Number,
             required: true, // stationId는 필수 prop
         },
+            
     },
     data() {
         return {
             menus: [], // 역 목록을 저장
             isExpanded: false, // 메뉴 확장 여부
             ignoreClick: false, // 첫 번째 클릭 이벤트 무시
+            activeStationId: null, // 클릭된 버튼의 ID를 저장하는 상태 추가
         };
     },
     created() {
@@ -55,8 +57,6 @@ export default {
                 console.log('New stationId received in BoardTopStationBtnCmp.vue:', newVal); // stationId가 올바르게 전달되는지 확인
                 if (newVal) {
                     this.fetchStations(newVal); // 역 목록 가져오기
-                } else {
-                    console.error('Received invalid stationId:', newVal);
                 }
             },
         },
@@ -69,15 +69,13 @@ export default {
     methods: {
         async fetchStations() {
             try {
-                console.log('Fetching stations for stationId:', this.$route.params.subwayId); // API 호출 전 log 추가
                 const response = await axios.get(`/api/station/list?subwayId=${this.$route.params.subwayId}`);
                 this.menus = response.data.map((subwayId) => ({
                     id: subwayId.id,
                     name: subwayId.name + '역',
                 }));
-                console.log('기모영Stations fetched:', this.menus); // 역 데이터가 올바르게 받아졌는지 확인
             } catch (error) {
-                console.error('기모영Failed to fetch stations:', error);
+                console.error('Failed to fetch stations:', error);
             }
         },
         toggleMenu() {
@@ -86,6 +84,7 @@ export default {
         },
         handleStationClick(stationId, stationName, event) {
             event.stopPropagation(); // 이벤트 버블링 중지
+            this.activeStationId = stationId;  // 클릭된 버튼의 ID를 활성화 상태로 설정
             this.$emit('stationSelected', stationId); // 역 선택 시 부모 컴포넌트로 전달
             this.$router.push({
                 path: this.$route.params.subwayId,
@@ -116,36 +115,49 @@ export default {
 
 <style scoped>
 .station-btn {
-    background-color: rgb(96, 111, 184);
-    color: white;
-    padding: 8px 12px;
-    margin: 5px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 1px 2px;
+    margin: 2px;
     border-radius: 5px;
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.2); /* 테두리 색 및 두께 */
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    white-space: nowrap;
+    font-size: 12px;
     min-width: 80px;
     text-align: center;
     overflow: hidden;
-    text-overflow: ellipsis;
+}
+
+.station-btn.active {
+    font-weight: bolder; /* 클릭된 버튼의 텍스트를 더 두껍게 처리 */
+    color: #2e21e7; /* 클릭된 상태에서의 텍스트 색상 */
+    border-color: #2e21e7; /* 클릭된 상태에서의 테두리 색상 */
 }
 
 .station-btn span {
-    display: inline-block;
-    max-width: 100%;
-    font-size: 14px;
-    line-height: 1;
-    word-wrap: break-word;
-    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 표시할 줄 수 */
+    overflow: hidden; /* 영역을 넘는 텍스트 숨김 처리 */
+    font-size: 12px;
+    line-height: 1; /* 줄 간격 설정 */
+    max-height: 2em; /* 2줄 표시할 수 있는 높이 설정 */
+    word-wrap: break-word; /* 긴 단어는 다음 줄로 넘김 */
+    word-break: break-all; /* 단어를 강제로 나눔 */
 }
 
 .station-btn:hover {
-    background-color: #004080;
+    border-color: #2e21e7; /* 테두리 색을 원하는 색상으로 변경 */
+    color: #2e21e7; /* 글자 색을 원하는 색상으로 변경 */
 }
 
-.toggle-btn {
+.station-btn:active {
+    font-weight: bolder; /* 클릭 시 텍스트를 더 두껍게 처리 */
+    color: #2e21e7; /* 클릭 시에도 글자 색상 유지 */
+    border-color: #2e21e7; /* 클릭 시 테두리 색상 유지 */
+}
+
+.toggle-btn {    /* 접기 펼치기 버튼 */
     background-color: transparent;
     color: #424242;
     padding: 8px 12px;
@@ -153,50 +165,19 @@ export default {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 300; /* 글씨체를 얇게 설정 */
     white-space: nowrap;
     min-width: 80px;
     text-align: center;
     text-decoration: underline;
 }
 
-.toggle-btn:hover {
-    background-color: transparent;
-    color: #424242;
-    text-decoration: underline;
-}
-.zoom-enter-active {
-    transition: all 0.7s ease;
+.clickable {
+    @apply transition duration-200 ease-in-out;
 }
 
-.station-placeholder {
-    visibility: hidden; /* 화면에 보이지 않게 처리 */
-    height: 40px; /* 버튼의 높이와 동일하게 설정 */
-    margin: 5px;
-}
-
-.zoom-enter-from,
-.zoom-leave-to {
-    transform: scale(0.8);
-    opacity: 0;
-}
-
-@media (max-width: 500px) {
-    .grid-cols-4 {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .shared-btn {
-        font-size: 11px;
-        padding: 6px 10px;
-        min-width: 70px;
-    }
-}
-
-@media (max-width: 390px) {
-    .grid-cols-4 {
-        grid-template-columns: repeat(4, 1fr);
-    }
+.clickable:active {
+    @apply bg-gray-300;
 }
 </style>
