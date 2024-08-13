@@ -111,6 +111,35 @@
       </div>
     </div>
   </div>
+
+  <!-- 확인 Modal -->
+  <div
+    v-if="isConfirmOpen"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    @click.self="closeConfirm"
+  >
+    <div
+      class="bg-white w-full max-w-[330px] p-6 rounded-lg shadow-lg relative"
+      @click.stop
+    >
+      <h2 class="text-lg font-bold mb-4">게시글 확인</h2>
+      <p class="mb-6">게시글 작성을 완료하시겠습니까?</p>
+      <div class="flex justify-center mt-6">
+        <button
+          @click="submitPost"
+          class="bg-blue-500 text-white py-2 px-6 rounded-lg mr-4"
+        >
+          작성하기
+        </button>
+        <button
+          @click="closeConfirm"
+          class="bg-gray-200 text-gray-700 py-2 px-6 rounded-lg"
+        >
+          취소
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -177,40 +206,35 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    async confirmSubmit() {
-      console.log("토큰 " + this.getAuth.values);
+    confirmSubmit() {
       if (!this.newPostContent.trim() || !this.selectedCategory) {
-        alert("호선과 내용을 모두 입력해 주세요.");
+        alert("역과 내용을 모두 입력해 주세요.");
       } else {
         this.isConfirmOpen = true;
-        try {
-          const response = await axios.post(
-            "/api/comments",
-            {
-              title: "전송",
-              content: this.newPostContent,
-              station: this.selectedCategory,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `${this.getAuth}`, // Bearer 추가
-              },
-            }
-          );
-          console.log(response.data);
-          this.closeConfirm();
-        } catch (e) {
-          console.log(this.getAuth.value);
-          console.log(e);
-        }
       }
     },
     closeConfirm() {
       this.isConfirmOpen = false;
     },
-    submitPost() {
-      if (this.newPostContent.trim() && this.selectedCategory) {
+    async submitPost() {
+      try {
+        const response = await axios.post(
+          "/api/comments",
+          {
+            title: "전송",
+            content: this.newPostContent,
+            station: this.selectedCategory,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `${this.getAuth}`, // Bearer 추가
+            },
+          }
+        );
+        console.log(response.data);
+
+        // 성공적으로 전송 후, 게시글 목록에 추가
         const now = new Date();
         const formattedDate = `${(now.getMonth() + 1)
           .toString()
@@ -225,10 +249,15 @@ export default {
           date: formattedDate,
           likes: 0,
         });
+
+        // 모달 닫기
         this.newPostContent = "";
         this.selectedCategory = "";
         this.closeConfirm();
         this.closeModal();
+      } catch (e) {
+        console.log(this.getAuth.value);
+        console.log(e);
       }
     },
     checkLength() {
