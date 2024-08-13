@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <transition-group name="zoom" tag="div" class="grid grid-cols-4 gap-2 p-2">
+    <div id = "buttonArea">
+        <transition-group name="zoom" tag="div" class="grid grid-cols-3 gap-2 p-2">
             <button
+            
                 v-for="menu in visibleMenus"
                 :key="menu.id"
                 :class="['station-btn', 'clickable', { 'active': activeStationId === menu.id }]" 
@@ -13,7 +14,7 @@
     </div>
     <div class="flex justify-end pr-2">
         <button @click="toggleMenu" class="toggle-btn text-gray-500 font-thin text-xs">
-            {{ isExpanded ? '접기' : '펼치기' }}
+            {{ isExpanded ? '접기 ' : '펼치기' }}
         </button>
     </div>
 </template>
@@ -63,7 +64,7 @@ export default {
     },
     computed: {
         visibleMenus() {
-            return this.isExpanded ? this.menus : this.menus.slice(0, 8); // 메뉴 확장 여부에 따른 표시
+            return this.isExpanded ? this.menus : this.menus.slice(0,6); // 메뉴 확장 여부에 따른 표시
         },
     },
     methods: {
@@ -114,6 +115,16 @@ export default {
 </script>
 
 <style scoped>
+
+#buttonArea {
+    max-height: 250px;
+    overflow: scroll;
+}
+
+#buttonArea::-webkit-scrollbar {
+    display: none;
+}
+
 .station-btn {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
