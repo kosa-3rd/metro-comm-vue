@@ -16,8 +16,8 @@
         <!-- 사용자 정보 섹션 -->
         <div id="user-info" class="flex justify-between items-center px-4 py-4 border-bd">
             <div>
-                <h2 class="text-2xl font-semibold">username</h2>
-                <p class="text-gray-500">email@naver.com</p>
+                <h2 class="text-2xl font-semibold">{{ userName }}</h2>
+                <p class="text-gray-500">{{ userEmail }}</p>
             </div>
             <button class="text-gray-500 font-semibold" @click="logout">로그아웃</button>
         </div>
@@ -48,9 +48,13 @@ export default {
 </script>
 
 <script setup>
+import { computed } from 'vue';
 import { useUserStore } from '@/store/user-store';
 
 const userStore = useUserStore();
+
+const userName = computed(() => userStore.user?.username || 'Guest');
+const userEmail = computed(() => userStore.user?.email || 'No Email respone');
 
 const logout = async function () {
     const result = await userStore.logout();

@@ -13,9 +13,11 @@ export const useUserStore = defineStore(
         const getUser = function () {
             return user.value;
         };
-
-        const login = function (email) {
-            user.value = email;
+        
+        const login = function (email, username) {
+            console.log('Login called with:', { email, username });
+            user.value = { email, username };
+            console.log('User object after login:', user.value);
         };
 
         const logout = function () {
