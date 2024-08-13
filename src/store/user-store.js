@@ -8,6 +8,7 @@ export const useUserStore = defineStore(
     () => {
         const user = ref({
             email: null,
+            nickname: null,
             token: null,
         });
 
@@ -23,8 +24,13 @@ export const useUserStore = defineStore(
             return user.value.token;
         });
 
+        const getNickname = computed(() => {
+            return user.value.nickname;
+        });
+
         const login = function (info) {
             user.value.email = info.email;
+            user.value.nickname = info.nickname;
             user.value.token = info.token;
         };
 
@@ -52,7 +58,7 @@ export const useUserStore = defineStore(
             return sessionStorage.getItem('users') == null;
         };
 
-        return { user, authenticated, login, getEmail, getAuth, logout };
+        return { user, authenticated, login, getEmail, getAuth, getNickname, logout };
     },
     {
         persist: {
