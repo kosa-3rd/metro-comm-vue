@@ -24,11 +24,12 @@ export default {
     data() {
         return {
             stations: [],
-            activeStationId: null, // 클릭된 버튼의 ID를 저장하는 상태 추가
+            activeStationId: null, // 클릭된 버튼의 ID를 저장하는 상태
         };
     },
     mounted() {
         this.fetchStations();
+        this.checkForDefaultRoute(); // 추가된 부분
     },
     methods: {
         async fetchStations() {
@@ -39,6 +40,9 @@ export default {
                     name: line.name,
                     color: line.color,
                 }));
+                if (this.$route.path === '/') {
+                    this.activeStationId = null; // Home 페이지에서는 activeStationId 초기화
+                }
             } catch (error) {
                 console.error("Failed to fetch subway lines:", error);
             }
@@ -52,20 +56,24 @@ export default {
             this.$emit('lineNameUpdated', lineName, lineColor);
             this.$emit('stationIdSelected', stationId);
 
-            // 로컬 스토리지에 저장
-            localStorage.setItem('lineName', lineName);
-            localStorage.setItem('lineColor', lineColor);
-            localStorage.setItem('borderColor', this.computeBorderColor(lineColor));
-
             // 라우터 이동
             this.$router.push({ 
                 path: `/${stationId}`
             });
         },
-        computeBorderColor(lineColor) {
-            return lineColor.replace('bg-', 'border-');
-        },
+        checkForDefaultRoute() {
+            if (this.$route.path === '/') {
+                this.activeStationId = null; // 기본 경로로 돌아올 때 activeStationId 초기화
+            }
+        }
     },
+    watch: {
+        '$route'(to) {
+            if (to.path === '/') {
+                this.activeStationId = null; // 경로가 '/'로 바뀌면 activeStationId를 초기화
+            }
+        }
+    }
 };
 </script>
 

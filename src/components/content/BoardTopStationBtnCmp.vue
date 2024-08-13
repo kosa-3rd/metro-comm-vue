@@ -10,14 +10,19 @@
 <template>
     <div id="buttonArea">
         <transition-group name="zoom" tag="div" class="grid grid-cols-3 gap-2 p-2">
-            <button
-                v-for="menu in visibleMenus"
-                :key="menu.id"
-                :class="['station-btn', 'clickable', { active: activeStationId === menu.id }]"
-                @click="handleStationClick(menu.id, menu.name, $event)"
-            >
-                {{ menu.name }}
-            </button>
+            <template v-if="menus && menus.length > 0">
+                <button
+                    v-for="menu in visibleMenus"
+                    :key="menu.id"
+                    :class="['station-btn', 'clickable', { active: activeStationId === menu.id }]"
+                    @click="handleStationClick(menu.id, menu.name, $event)"
+                >
+                    {{ menu.name }}
+                </button>
+            </template>
+            <div v-else class="col-span-3 flex justify-center items-center">
+                <p class="select-route-text">노선을 선택해 주세요</p>
+            </div>
         </transition-group>
     </div>
     <div class="flex justify-end pr-2">
@@ -189,6 +194,13 @@ export default {
     min-width: 80px;
     text-align: center;
     text-decoration: underline;
+}
+
+.select-route-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #424242;
+    text-align: center;
 }
 
 .clickable {
