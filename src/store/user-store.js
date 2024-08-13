@@ -51,8 +51,10 @@ export const useUserStore = defineStore(
                 user.value.token = null;
                 router.push('/');
             } catch (err) {
-                console.log(getAuth.value); // 디버깅을 위한 토큰 출력
-                console.log(err); // 오류 로그 출력
+                sessionStorage.removeItem('users');
+                user.value.email = null;
+                user.value.token = null;
+                router.push('/');
             }
 
             return sessionStorage.getItem('users') == null;
