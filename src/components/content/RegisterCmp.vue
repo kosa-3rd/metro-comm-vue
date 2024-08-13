@@ -12,7 +12,7 @@
             <div id="upper-compo-left" class="w-6 mb-4 mt-4">
             </div>
             <div id="upper-compo-center">
-                <h3 id="sign-info" class="text-xl font-semibold text-center mb-4 mt-4">회원가입</h3>
+                <h3 id="sign-info" class="text-xl font-semibold text-center mt-4">회원가입</h3>
                 <br>
                 <h4 class="h-sm-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h4>
             </div>
@@ -20,6 +20,7 @@
         </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
+                <img src="../../assets/NO_Route.png" alt="No Route" class="form-image mx-auto mb-6" />
                 <input
                     type="text"
                     id="userEmail"
@@ -59,7 +60,7 @@
                     class="data-input"
                     required
                 /><br />
-                <button id="submit" type="button" v-on:click="submit">회원가입</button>
+                <button id="submit" type="button" v-on:click="submit">Sign Up</button>
             </form>
         </div>
     </div>
@@ -229,7 +230,7 @@ export default {
 }
 
 .data-input {
-    @apply h-9 m-auto block mb-5;
+    @apply h-9 m-auto block mb-1;
     width: 90%;
     max-width: 600px;
     border-bottom: 3px solid lightgray;
@@ -238,6 +239,12 @@ export default {
 
 .data-input:focus {
     border-bottom: 3px solid black;
+}
+
+.data-input::placeholder {
+    color: #a0aec0; /* 연한 회색 */
+    font-size: 0.875rem; /* 작게 설정 (14px) */
+    opacity: 1;
 }
 
 #submit {
@@ -250,6 +257,12 @@ export default {
 form {
     padding-top: 3rem;
     padding-bottom: 3rem;
+}
+.form-image {
+    display: block;
+    width: 10rem; /* 이미지 크기 설정 */
+    height: 10rem; /* 이미지 크기 설정 */
+    margin-bottom: 2rem; /* 이미지와 입력 필드 간의 간격 조정 */
 }
 
 #register-wrapper {

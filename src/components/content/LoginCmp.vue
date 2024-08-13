@@ -7,7 +7,7 @@
  2024.08.09 양건모 | 디자인 수정, 회원가입 링크 추가
  
  -->
-<template>
+ <template>
     <div id="login-wrapper">
         <div id="upper-compo">
             <div id="upper-compo-left" class="w-6 mb-4 mt-4">
@@ -22,6 +22,7 @@
         </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
+                <img src="../../assets/NO_Route.png" alt="No Route" class="form-image mx-auto mb-6" />
                 <input
                     type="text"
                     id="userEmail"
@@ -151,6 +152,12 @@ const submit = async function () {
 form {
     padding-top: 3rem;
     padding-bottom: 2rem;
+}
+
+.form-image {
+    display: block;
+    width: 5rem; /* 이미지 크기 설정 */
+    height: 5rem; /* 이미지 크기 설정 */
 }
 
 #login-wrapper {
