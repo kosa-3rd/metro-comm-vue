@@ -151,14 +151,13 @@ const submit = async function () {
 }
 
 form {
-    padding-top: 3rem;
     padding-bottom: 2rem;
 }
 
 .form-image {
     display: block;
-    width: 5rem; /* 이미지 크기 설정 */
-    height: 5rem; /* 이미지 크기 설정 */
+    width: 9rem; /* 이미지 크기 설정 */
+    height: 9rem; /* 이미지 크기 설정 */
 }
 
 #login-wrapper {
