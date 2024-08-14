@@ -10,28 +10,8 @@
 <template>
   <div>
     <!-- 게시판 제목 -->
-    <h2 class="text-2xl font-bold pl-4">1호선 게시판</h2>
-    <div class="border rounded-lg p-4 mt-2 ml-4 mr-4 mb-20">
-      <!-- 실시간 인기글 -->
-      <p class="text-sm text-gray-600 pt-1">1호선 실시간 인기 글</p>
-      <div class="border rounded-lg p-4 mt-2 bg-gray-200">
-        <div class="flex justify-between items-start">
-          <div class="flex-grow">
-            <p class="font-bold">제목</p>
-            <p class="mt-1">지하철 염북동 빌런 출몰했다.</p>
-            <div
-              class="flex justify-between items-center text-xs text-gray-500 mt-4"
-            >
-              <p>08/04 22:00 | username</p>
-              <div class="flex items-center text-red-500">
-                <button class="material-icons mr-1 text-xs">thumb_up</button>
-                340
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <!-- <h2 class="text-2xl font-bold pl-4">1호선 게시판</h2> -->
+    <div class="border rounded-lg p-4 mt-4 ml-4 mr-4 mb-20">
       <!-- 게시글 목록 -->
       <ul class="divide-y divide-gray-200 mt-4">
         <li v-for="(post, index) in posts" :key="index" class="p-4">
@@ -43,10 +23,6 @@
                 class="flex justify-between items-center text-xs text-gray-500 mt-4"
               >
                 <p>{{ post.createdAt }} | {{ post.nickname }}</p>
-                <div class="flex items-center text-red-500">
-                  <button class="material-icons mr-1 text-xs">thumb_up</button>
-                  <span class="likes-count">{{ post.likes }}</span>
-                </div>
               </div>
             </div>
           </div>
@@ -57,7 +33,7 @@
 
     <!-- 글 쓰기 Button -->
     <button
-      v-if="isAuthenticated"
+      v-if="isAuthenticated && !isHomePage"
       @click="openModal"
       class="fixed bottom-28 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white py-2 px-4 rounded-full shadow-lg font-bold z-50 hover:bg-gray-600"
     >
@@ -160,6 +136,7 @@ import { useUserStore } from "@/store/user-store";
 import { computed } from "vue";
 import axios from "axios";
 import InfiniteLoading from "infinite-loading-vue3-ts";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -167,11 +144,16 @@ export default {
   },
   setup() {
     const userStore = useUserStore();
+    const route = useRoute();
     const isAuthenticated = computed(() => userStore.authenticated);
     const getAuth = computed(() => userStore.getAuth);
+    const getNickname = computed(() => userStore.getNickname);
+    const isHomePage = computed(() => route.path === "/");
     return {
       isAuthenticated,
       getAuth,
+      getNickname,
+      isHomePage,
     };
   },
   data() {
@@ -237,18 +219,19 @@ export default {
         console.log(response.data);
 
         const now = new Date();
-        const formattedDate = `${(now.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}/${now.getDate().toString().padStart(2, "0")} ${now
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`;
+        const kstOffset = 9 * 60 * 60 * 1000; // KST는 UTC+9
+        const kstTime = new Date(now.getTime() + kstOffset);
+
+        // KST 시간 포맷 'YYYY-MM-DDTHH:MM:SS.SSSSSS'
+        const formattedDate =
+          kstTime.toISOString().slice(0, 23) +
+          kstTime.getMilliseconds().toString().padStart(3, "0");
 
         this.posts.unshift({
-          title: `${this.newPostContent}`,
-          author: "username",
-          date: formattedDate,
-          likes: 0,
+          content: `${this.newPostContent}`,
+          nickname: this.getNickname, // 사용자 닉네임으로 수정
+          createdAt: formattedDate,
+          station: this.selectedCategory, // 선택된 역을 표시
         });
 
         this.newPostContent = "";
@@ -296,9 +279,6 @@ export default {
 </script>
 
 <style scoped>
-.material-icons {
-  font-size: 1rem;
-}
 .write-icon {
   font-size: 1.5rem;
   vertical-align: middle;
@@ -320,11 +300,6 @@ export default {
 
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
-}
-
-.likes-count {
-  min-width: 30px;
-  text-align: right;
 }
 
 li p {
