@@ -9,20 +9,24 @@
             <p class="normal-text font-bold">노선도</p>
         </router-link>
 
-        <router-link to="/" class="nav-item flex flex-col items-center flex-1 clickable" active-class="active">
+        <div
+            class="nav-item flex flex-col items-center flex-1 clickable"
+            :class="{ active: isHomeActive }"
+            @click="handleHomeClick"
+        >
             <font-awesome-icon :icon="['fas', 'train']" class="nav-icon" />
             <p class="normal-text font-bold">HOME</p>
-        </router-link>
+        </div>
 
-        <router-link
+        <div
             v-if="isAuthenticated"
-            to="/my"
             class="nav-item flex flex-col items-center flex-1 clickable"
-            active-class="active"
+            :class="{ active: isMyPageActive }"
+            @click="handleMyPageClick"
         >
             <font-awesome-icon :icon="['far', 'user']" class="nav-icon" />
             <p class="normal-text font-bold">마이페이지</p>
-        </router-link>
+        </div>
 
         <router-link
             v-else
@@ -39,14 +43,36 @@
 <script>
 import { useUserStore } from '@/store/user-store';
 import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
     setup() {
         const userStore = useUserStore();
         const isAuthenticated = computed(() => userStore.authenticated);
+        const route = useRoute();
+        const router = useRouter();
+
+        const handleHomeClick = () => {
+            window.location.href = '/'; // Home 버튼을 클릭하면 페이지를 리로드하면서 기본 화면으로 이동
+        };
+
+        const handleMyPageClick = () => {
+            router.push('/my'); // 마이페이지로 이동
+        };
+
+        const isHomeActive = computed(() => {
+            const excludedPaths = ['/my', '/login', '/navmap', '/register'];
+            return !excludedPaths.some(path => route.path.startsWith(path));
+        });
+
+        const isMyPageActive = computed(() => route.path.startsWith('/my'));
 
         return {
             isAuthenticated,
+            handleHomeClick,
+            handleMyPageClick,
+            isHomeActive,
+            isMyPageActive,
         };
     },
 };

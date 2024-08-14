@@ -1,15 +1,31 @@
+<!-- 
+ 담당자: 김호영
+ 시작 일자: 2024.08.
+ 설명 : 역 버튼 컴포넌트
+ ---------------------
+ 2024.08.12 양건모 | 역 버튼 클릭시 queryString 추가
+ 
+ -->
+
 <template>
-    <div id = "buttonArea">
+    <div id="buttonArea">
         <transition-group name="zoom" tag="div" class="grid grid-cols-3 gap-2 p-2">
-            <button
-            
-                v-for="menu in visibleMenus"
-                :key="menu.id"
-                :class="['station-btn', 'clickable', { 'active': activeStationId === menu.id }]" 
-                @click="handleStationClick(menu.id, menu.name, $event)"
-            >
-                {{ menu.name }}
-            </button>
+            <template v-if="menus && menus.length > 0">
+                <button
+                    v-for="menu in visibleMenus"
+                    :key="menu.id"
+                    :class="['station-btn', 'clickable', { active: activeStationId === menu.id }]"
+                    @click="handleStationClick(menu.id, menu.name, $event)"
+                >
+                    {{ menu.name }}
+                </button>
+            </template>
+            <div v-else class="col-span-3 flex justify-center items-center">
+                <p class="select-route-text text-2xl font-semibold text-gray-700">
+    노선을 선택해 주세요
+</p>
+    <img src="../../assets/NO_Route.png" alt="No Route" class="ml-2 w-20 h-20" />
+</div>
         </transition-group>
     </div>
     <div class="flex justify-end pr-2">
@@ -28,7 +44,6 @@ export default {
             type: Number,
             required: true, // stationId는 필수 prop
         },
-            
     },
     data() {
         return {
@@ -64,7 +79,7 @@ export default {
     },
     computed: {
         visibleMenus() {
-            return this.isExpanded ? this.menus : this.menus.slice(0,6); // 메뉴 확장 여부에 따른 표시
+            return this.isExpanded ? this.menus : this.menus.slice(0, 6); // 메뉴 확장 여부에 따른 표시
         },
     },
     methods: {
@@ -85,7 +100,7 @@ export default {
         },
         handleStationClick(stationId, stationName, event) {
             event.stopPropagation(); // 이벤트 버블링 중지
-            this.activeStationId = stationId;  // 클릭된 버튼의 ID를 활성화 상태로 설정
+            this.activeStationId = stationId; // 클릭된 버튼의 ID를 활성화 상태로 설정
             this.$emit('stationSelected', stationId); // 역 선택 시 부모 컴포넌트로 전달
             this.$router.push({
                 path: this.$route.params.subwayId,
@@ -115,7 +130,6 @@ export default {
 </script>
 
 <style scoped>
-
 #buttonArea {
     max-height: 250px;
     overflow: scroll;
@@ -168,7 +182,8 @@ export default {
     border-color: #3b82f6; /* 클릭 시 테두리 색상 유지 */
 }
 
-.toggle-btn {    /* 접기 펼치기 버튼 */
+.toggle-btn {
+    /* 접기 펼치기 버튼 */
     background-color: transparent;
     color: #424242;
     padding: 8px 12px;
@@ -182,6 +197,13 @@ export default {
     min-width: 80px;
     text-align: center;
     text-decoration: underline;
+}
+
+.select-route-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #424242;
+    text-align: center;
 }
 
 .clickable {

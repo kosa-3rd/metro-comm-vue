@@ -36,6 +36,7 @@ export default {
     },
     mounted() {
         this.initializeFromLocalStorage();
+        this.checkForDefaultRoute(); // 추가된 부분
     },
     methods: {
         initializeFromLocalStorage() {
@@ -59,7 +60,27 @@ export default {
         computeBorderColor(lineColor) {
             return lineColor.replace('bg-', 'border-');
         },
+        checkForDefaultRoute() {
+            // 현재 경로가 '/'이면 기본값으로 초기화
+            if (this.$route.path === '/') {
+                this.lineName = 'MeCo';
+                this.lineColor = 'bg-black';
+                this.borderColor = 'border-black';
+
+                // 로컬 스토리지 초기화
+                localStorage.removeItem('lineName');
+                localStorage.removeItem('lineColor');
+                localStorage.removeItem('borderColor');
+            }
+        }
     },
+    watch: {
+        '$route'(to) {
+            if (to.path === '/') {
+                this.checkForDefaultRoute();
+            }
+        }
+    }
 };
 </script>
 

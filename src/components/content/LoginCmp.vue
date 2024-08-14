@@ -3,11 +3,12 @@
  시작 일자: 2024.08.08
  설명 : 로그인 컴포넌트
  ---------------------
- 2024.08.09 양건모 | 기능 구현 완료
+ 2024.08.09 양건모 | 기능 구현
  2024.08.09 양건모 | 디자인 수정, 회원가입 링크 추가
+ 2024.08.14 양건모 | 로그인 성공시 이전의 페이지로 이동하도록 설정
  
  -->
-<template>
+ <template>
     <div id="login-wrapper">
         <div id="upper-compo">
             <div id="upper-compo-left" class="w-6 mb-4 mt-4">
@@ -22,6 +23,7 @@
         </div>
         <div id="form-div" class="">
             <form @submit.prevent="submit" id="form">
+                <img src="../../assets/NO_Route.png" alt="No Route" class="form-image mx-auto mb-6" />
                 <input
                     type="text"
                     id="userEmail"
@@ -91,20 +93,15 @@ const submit = async function () {
             },
         })
         .then(function (info) {
-            console.log('Server response:', info.data); // 서버 응답 확인
-            userStore.login(info.data.email, info.data.username);
+            console.log(info.data);
+            userStore.login(info.data);
         })
         .then(() => {
-            router.push('/');
+            router.go(-1);
         })
         .catch(() => {
             console.log(tempMember.email + ' ' + tempMember.password);
             console.log(emailInput.value + ' ' + passwordInput.value);
-
-            if (tempMember.email == emailInput.value && tempMember.password == passwordInput.value) {
-                userStore.login(tempMember.email, tempMember.username);
-                router.push('/');
-            }
 
             document.getElementById('err').style.visibility = 'visible';
             tremble(document.getElementById('submit'));
@@ -154,8 +151,13 @@ const submit = async function () {
 }
 
 form {
-    padding-top: 3rem;
     padding-bottom: 2rem;
+}
+
+.form-image {
+    display: block;
+    width: 9rem; /* 이미지 크기 설정 */
+    height: 9rem; /* 이미지 크기 설정 */
 }
 
 #login-wrapper {
