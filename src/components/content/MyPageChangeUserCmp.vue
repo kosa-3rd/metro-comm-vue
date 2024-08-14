@@ -25,7 +25,7 @@
         <label for="nickname">닉네임 수정</label>
         <input type="text" id="nickname" v-model="newNickname" class="input-box data-input mb-4" placeholder="닉네임 (2~12자 한글, 대소문자, 숫자)" @input="validateNickname(newNickname)">
         <p v-if="showError.nickname" class="text-red-500 text-sm mt-1 mb-4">{{ nicknameErrorMsg }}</p>
-        <button @click="handleButtonClick($event, changeNickname)" class="mt-4 bg-blue-500 text-white p-2 rounded clickable text-sm">닉네임 변경</button>
+        <button @click="handleButtonClick($event, changeNickname)" class="mt-4 bg-blue-500 text-white p-2 rounded clickable text-sm">변경하기</button>
     </div>
 
     <!-- 비밀번호 변경 섹션 -->
@@ -114,9 +114,14 @@ export default {
             }
 
             try {
-                // 닉네임 변경 API 호출
-                const response = await axios.post('/api/users/api입력해주시오 닉변', {
-                    newNickname: newNickname.value,
+                if (!newNickname.value) {
+                    alert('닉네임을 입력하세요.');
+                    return;
+                }
+
+                // 닉네임 변경 API 호출 (PATCH 메소드 사용)
+                const response = await axios.patch('/api/users/nickname', {
+                    nickname: newNickname.value,
                 }, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -124,10 +129,8 @@ export default {
                     },
                 });
 
-                if (response.data.success) {
+                if (response.data) {
                     alert('닉네임이 성공적으로 변경되었습니다.');
-
-                    // Pinia 스토어의 닉네임을 업데이트
                     userStore.user.nickname = newNickname.value;
                 } else {
                     alert('닉네임 변경에 실패했습니다.');

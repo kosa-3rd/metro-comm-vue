@@ -28,9 +28,9 @@
         <div class="mb-4">
           <label class="form-label">회원 탈퇴 이유에 대해 설명해주시오. <span class="text-red-500">*필수</span></label>
           <div v-for="(reason, index) in reasons" :key="index" class="reason-option">
-    <input type="radio" :id="'reason' + index" v-model="selectedReason" :value="reason" />
-    <label :for="'reason' + index">{{ reason }}</label>
-  </div>
+            <input type="radio" :id="'reason' + index" v-model="selectedReason" :value="reason" />
+            <label :for="'reason' + index">{{ reason }}</label>
+          </div>
         </div>
 
         <div class="mb-4">
@@ -58,87 +58,84 @@
 import axios from 'axios';
 import { useUserStore } from '@/store/user-store';
 import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
 
 export default {
-  data() {
-    return {
-      selectedReason: '',
-      otherReason: '',
-      password: '',
-      confirmPassword: '',
-      reasons: ['해당 서비스가 마음에 들지 않아서.', '디자인이 별로여서.', '해당 서비스가 도움이 되지 않아서.', '더 나은 서비스가 존재해서.', '이유 없음.'],
+  setup() {
+    const userStore = useUserStore();
+    const router = useRouter();
+    const nickName = computed(() => userStore.user?.nickname || 'Guest');
+    const userEmail = computed(() => userStore.user?.email || 'No Email response');
+    const authToken = computed(() => userStore.getAuth); // 인증 토큰 가져오기
+
+    const selectedReason = ref('');
+    const otherReason = ref('');
+    const password = ref('');
+    const confirmPassword = ref('');
+    const reasons = ['해당 서비스가 마음에 들지 않아서.', '디자인이 별로여서.', '해당 서비스가 도움이 되지 않아서.', '더 나은 서비스가 존재해서.', '이유 없음.'];
+
+    const goPrev = () => {
+      router.go(-1);
     };
-  },
-  computed: {
-    nickName() {
-      return this.userStore.user?.nickname || 'Guest';
-    },
-    userEmail() {
-      return this.userStore.user?.email || 'No Email response';
-    },
-  },
-  methods: {
-    goPrev() {
-      this.$router.go(-1);
-    },
-    logout() {
-      const result = this.userStore.logout();
+
+    const logout = async () => {
+      const result = await userStore.logout();
       if (result) {
-        this.$router.push('/');
+        router.push('/');
       }
-    },
-    async submitForm() {
-      if (this.password !== this.confirmPassword) {
+    };
+
+    const submitForm = async () => {
+      if (password.value !== confirmPassword.value) {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       }
-      if (!this.selectedReason) {
+      if (!selectedReason.value) {
         alert('탈퇴 사유를 선택해주세요.');
         return;
       }
 
       // 현재 비밀번호 확인 API 호출
       try {
-        const response = await axios.post('/api/users/verify-password', {
-          email: this.userEmail,
-          password: this.password,
-        }, {
+        const response = await axios.get('/api/users/validate/password', {
+          params: {
+            userEmail: password.value, // 여기서 userEmail은 실제로는 비밀번호
+          },
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: this.userStore.getAuth, // 사용자 인증 토큰
+            Authorization: authToken.value,
           },
         });
 
-        if (!response.data.success) {
+        if (!response.data) { // 서버 응답이 false일 때
           alert('현재 비밀번호가 일치하지 않습니다.');
           return;
         }
 
         // 비밀번호 확인이 성공하면, 서버로 탈퇴 요청을 보냄
-        await this.withdraw();
+        await withdraw();
       } catch (error) {
         console.error('현재 비밀번호 확인 실패:', error);
         alert('비밀번호 확인 중 오류가 발생했습니다.');
+        return;
       }
-    },
-    async withdraw() {
-      try {
-        // 실제 탈퇴 API 호출 로직
-        const response = await axios.delete('/api/users', {
-          data: {
-            reason: this.selectedReason,
-            otherReason: this.otherReason,
-            email: this.userEmail,
-          },
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: this.userStore.getAuth, // 사용자 인증 토큰
-          },
-        });
+    };
 
-        if (response.data.success) {
+    const withdraw = async () => {
+      try {
+        //탈퇴 API 호출 로직
+        const response = await axios.delete('/api/users', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken.value, // 사용자 인증 토큰
+      },
+      data: {
+        email: userEmail.value,
+      },
+    });
+
+        if (response.data) {
           alert('성공적으로 탈퇴되었습니다.');
-          this.logout();
+          logout();
         } else {
           alert('탈퇴에 실패했습니다.');
         }
@@ -146,14 +143,19 @@ export default {
         console.error('탈퇴 실패:', error);
         alert('탈퇴 중 오류가 발생했습니다.');
       }
-    },
-  },
-  setup() {
-    const userStore = useUserStore();
-    const router = useRouter();
+    };
+
     return {
-      userStore,
-      router,
+      selectedReason,
+      otherReason,
+      password,
+      confirmPassword,
+      reasons,
+      nickName,
+      userEmail,
+      goPrev,
+      logout,
+      submitForm,
     };
   },
 };
