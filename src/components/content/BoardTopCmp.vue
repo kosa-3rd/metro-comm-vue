@@ -1,19 +1,22 @@
 <template>
-  <h3>BoardTop</h3>
-  <BoardTopStationBtnCmp></BoardTopStationBtnCmp>
+    <div>
+        <board-top-station-btn-cmp></board-top-station-btn-cmp>
+        <board-top-train-arrival-cmp></board-top-train-arrival-cmp>
+    </div>
 </template>
 
 <script>
-import BoardTopStationBtnCmp from "./BoardTopStationBtnCmp.vue";
+import BoardTopStationBtnCmp from './BoardTopStationBtnCmp.vue';
+import BoardTopTrainArrivalCmp from './BoardTopTrainArrivalCmp.vue';
 
 export default {
-  components: { BoardTopStationBtnCmp },
-  methods: {
-    updateLineId(stationId) {
-      console.log("Station ID received in BoardTopCmp.vue:", stationId); // stationId 로그 출력
-      this.$emit("lineSelected", stationId); // 부모 컴포넌트로 stationId 전달
+    components: { BoardTopStationBtnCmp, BoardTopTrainArrivalCmp },
+    methods: {
+        updateLineId(stationId) {
+            console.log('Station ID received in BoardTopCmp.vue:', stationId); // stationId 로그 출력
+            this.$emit('lineSelected', stationId); // 부모 컴포넌트로 stationId 전달
+        },
     },
-  },
 };
 </script>
 
