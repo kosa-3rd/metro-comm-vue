@@ -1,14 +1,15 @@
 <template>
     <div id="arrival-wrapper">
         <div
-            v-for="subway in sortedArrivals"
+            v-for="(subway, index) in sortedArrivals"
             :key="subway.subwayId"
             class="subway"
             :style="getSubwayStyle(subway.subwayId)"
+            v-show="index === 0 || showAllSubways"
         >
             <h2 id="subway-name">{{ subway.subwayName }}</h2>
             <div class="train-container">
-                <div v-for="train in subway.trainArrivals" :key="train.trainTo" class="train">
+                <div v-for="train in displayedTrainArrivals(subway.trainArrivals)" :key="train.trainTo" class="train">
                     <div class="train-info">
                         <span class="train-to">{{ train.trainTo }}</span>
                         <span class="arv-msg">{{ train.arvMsg }}</span>
@@ -16,6 +17,9 @@
                 </div>
             </div>
         </div>
+        <button v-if="sortedArrivals.length > 1" @click="toggleShowAllSubways" class="toggle-button">
+            {{ showAllSubways ? '현재 노선만 보기' : '모든 노선 보기' }}
+        </button>
     </div>
 </template>
 
@@ -46,7 +50,6 @@ const subwayColors = {
 };
 
 const lightenColor = (color, percent) => {
-    // 색상 코드가 '#RRGGBB' 형식인지 확인
     let r = parseInt(color.slice(1, 3), 16);
     let g = parseInt(color.slice(3, 5), 16);
     let b = parseInt(color.slice(5, 7), 16);
@@ -67,6 +70,8 @@ export default {
         const arrivals = ref([]);
         let intervalId = null;
         const route = useRoute();
+        const showMore = ref(false);
+        const showAllSubways = ref(false);
 
         const fetchData = async () => {
             try {
@@ -89,36 +94,7 @@ export default {
             }
 
             const mockData = [
-                {
-                    subwayId: 1001,
-                    subwayName: '1호선',
-                    trainArrivals: [
-                        { trainTo: '▶ 종로3가', arvMsg: '10분 후 도착' },
-                        { trainTo: '▶ 서울역', arvMsg: '15분 후 도착' },
-                        { trainTo: '▶ 왕십리', arvMsg: '25분 후 도착' },
-                    ],
-                },
-                {
-                    subwayId: 1002,
-                    subwayName: '2호선',
-                    trainArrivals: [
-                        { trainTo: '▶ 강남', arvMsg: '5분 후 도착' },
-                        { trainTo: '▶ 홍대입구', arvMsg: '12분 후 도착' },
-                    ],
-                },
-                {
-                    subwayId: 1003,
-                    subwayName: '3호선',
-                    trainArrivals: [
-                        { trainTo: '▶ 대화', arvMsg: '8분 후 도착' },
-                        { trainTo: '▶ 경복궁', arvMsg: '18분 후 도착착착착착착착착차가착ㅊ갗' },
-                        { trainTo: '▶ 대화', arvMsg: '8분 후 도착' },
-                        { trainTo: '▶ 경복궁', arvMsg: '18분 후 도착착착착착착착착차가착ㅊ갗' },
-                        { trainTo: '▶ 대화', arvMsg: '8분 후 도착' },
-                        { trainTo: '▶ 경복궁', arvMsg: '18분 후 도착착착착착착착착차가착ㅊ갗' },
-                    ],
-                },
-                // 필요한 만큼 더 추가
+                // ... (mock data)
             ];
 
             const matchedSubway = arrivals.value.find((subway) => subway.subwayId == targetSubwayId);
@@ -130,7 +106,7 @@ export default {
 
         const getSubwayStyle = (subwayId) => {
             const color = subwayColors[subwayId] || '#ddd'; // 기본 색상
-            const lightenedColor = lightenColor(color, 0.95); // 색상을 50% 밝게 조정
+            const lightenedColor = lightenColor(color, 0.95); // 색상을 95% 밝게 조정
 
             return {
                 borderColor: color,
@@ -166,9 +142,26 @@ export default {
             { immediate: true },
         );
 
+        const toggleShowMore = () => {
+            showMore.value = !showMore.value;
+        };
+
+        const toggleShowAllSubways = () => {
+            showAllSubways.value = !showAllSubways.value;
+        };
+
+        const displayedTrainArrivals = (trainArrivals) => {
+            return showMore.value ? trainArrivals : trainArrivals.slice(0, 5); // 기본적으로 5개의 항목만 표시
+        };
+
         return {
             sortedArrivals,
             getSubwayStyle,
+            toggleShowMore,
+            toggleShowAllSubways,
+            displayedTrainArrivals,
+            showMore,
+            showAllSubways,
         };
     },
 };
@@ -211,8 +204,10 @@ export default {
 
 #arrival-wrapper {
     margin: auto;
-    margin-top: 1.5rem;
+    margin-top: 0rem;
+    margin-bottom: 4rem;
     width: 95%;
+    position: relative;
 }
 
 #subway-name {
@@ -223,19 +218,20 @@ export default {
 }
 
 .toggle-button {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #007bff;
-    border: 1px solid #007bff;
-    border-radius: 5px;
+    position: absolute; /* 버튼을 절대 위치로 배치 */
+    right: 0%; /* 오른쪽 끝에서 10px 떨어진 위치 */
     background-color: transparent;
+    color: #424242;
+    padding: 8px 12px;
+    padding-top: 0px;
+    border-radius: 5px;
+    border: none;
     cursor: pointer;
-}
-
-.toggle-button:hover {
-    background-color: #007bff;
-    color: #fff;
+    font-size: 12px;
+    font-weight: 300; /* 글씨체를 얇게 설정 */
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: left;
+    text-decoration: underline;
 }
 </style>

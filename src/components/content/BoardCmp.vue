@@ -1,6 +1,6 @@
 <template>
     <div>
-        <board-top-cmp @lineSelected="handleLineSelected"></board-top-cmp>
+        <board-top-cmp @lineSelected="handleLineSelected" :key="componentKey"></board-top-cmp>
         <!-- <BoardTopStationBtnCmp
       v-if="selectedStationId"
       :stationId="selectedStationId"
