@@ -16,7 +16,7 @@
       <!-- 사용자 정보 섹션 -->
       <div id="user-info" class="flex justify-between items-center px-4 py-4 border-bd">
         <div>
-          <h2 class="text-2xl font-semibold">{{ userName }}</h2>
+          <h2 class="text-2xl font-semibold">{{ nickName }}</h2>
           <p class="text-gray-500">{{ userEmail }}</p>
         </div>
         <button class="text-gray-500 font-semibold" @click="logout">로그아웃</button>
@@ -71,7 +71,7 @@
       const userStore = useUserStore();
       const router = useRouter();
   
-      const userName = computed(() => userStore.user?.username || 'Guest');
+      const nickName = computed(() => userStore.user?.nickname || 'Guest');
       const userEmail = computed(() => userStore.user?.email || 'No Email response');
   
       const posts = ref([
@@ -117,7 +117,7 @@
       });
   
       return {
-        userName,
+        nickName,
         userEmail,
         posts,
         visiblePosts,
