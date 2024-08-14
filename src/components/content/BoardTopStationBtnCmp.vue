@@ -4,6 +4,7 @@
  설명 : 역 버튼 컴포넌트
  ---------------------
  2024.08.12 양건모 | 역 버튼 클릭시 queryString 추가
+ 2024.08.15 양건모 | Board 컴포넌트에 :key 속성을 추가함에 따라 선택한 역 표시 로직 변경
  
  -->
 
@@ -15,7 +16,13 @@
                     <button
                         v-for="menu in visibleMenus"
                         :key="menu.id"
-                        :class="['station-btn', 'clickable', { active: activeStationId === menu.id }]"
+                        :class="[
+                            'station-btn',
+                            'clickable',
+                            {
+                                active: activeStationId === menu.id || menu.id === activeButtonId,
+                            },
+                        ]"
                         @click="handleStationClick(menu.id, menu.name, $event)"
                     >
                         {{ menu.name }}
@@ -80,6 +87,12 @@ export default {
     computed: {
         visibleMenus() {
             return this.isExpanded ? this.menus : this.menus.slice(0, 6); // 메뉴 확장 여부에 따른 표시
+        },
+        activeButtonId() {
+            // URL 쿼리 파라미터에서 'station' 값을 가져와서, 해당 값과 일치하는 버튼의 ID를 반환
+            return this.$route.query.station
+                ? this.menus.find((menu) => menu.name === this.$route.query.station)?.id
+                : null;
         },
     },
     methods: {
