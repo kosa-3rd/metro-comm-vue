@@ -72,7 +72,7 @@
                 </div>
 
                 <!-- 드롭다운 메뉴 -->
-                <select v-model="selectedCategory" class="w-[180px] p-2 border rounded-lg mb-4" v-bind="stations">
+                <select v-model="selectedCategory" class="w-[180px] p-2 border rounded-lg mb-4">
                     <option value="" disabled>역을 선택하세요</option>
                     <option v-for="station in stations" :key="station.id" :value="station.name">
                         {{ station.name }}
@@ -87,7 +87,6 @@
                     placeholder="게시글을 작성해 주세요"
                     @input="checkLength"
                     maxlength="100"
-                    v-bind="content"
                 ></textarea>
                 <div class="text-right text-sm text-gray-500">{{ newPostContent.length }}/100</div>
 
@@ -246,7 +245,11 @@ export default {
                 const currentPage = this.page;
                 const endpoint =
                     '/api/comments' +
-                    (station ? `/station/${station}/${currentPage}` : `/subway/${subwayId}/${currentPage}`);
+                    (subwayId != 0
+                        ? station
+                            ? `/station/${station}/${currentPage}`
+                            : `/subway/${subwayId}/${currentPage}`
+                        : `/all/${currentPage}`);
 
                 const response = await axios.get(endpoint);
 

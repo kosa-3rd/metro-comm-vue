@@ -28,9 +28,13 @@
                         {{ menu.name }}
                     </button>
                 </template>
+                <!-- <div v-else class="col-span-3 flex justify-center items-center">
+                    <p class="select-route-text text-2xl font-semibold text-gray-700">노선을 선택해 주세요</p>
+                    <img src="../../assets/NO_Route.png" alt="No Route" class="ml-2 w-20 h-20" />
+                </div> -->
             </transition-group>
         </div>
-        <div class="flex justify-end pr-2">
+        <div class="flex justify-end pr-2" v-if="$route.params.subwayId">
             <button @click="toggleMenu" class="toggle-btn text-gray-500 font-thin text-xs">
                 {{ isExpanded ? '접기 ' : '펼치기' }}
             </button>
@@ -43,10 +47,10 @@ import axios from 'axios';
 
 export default {
     props: {
-        stationId: {
-            type: Number,
-            required: true, // stationId는 필수 prop
-        },
+        // stationId: {
+        //     type: Number,
+        //     required: true, // stationId는 필수 prop
+        // },
     },
     data() {
         return {
@@ -57,7 +61,9 @@ export default {
         };
     },
     created() {
-        this.fetchStations();
+        if (this.$route.params.subwayId) {
+            this.fetchStations();
+        }
     },
     mounted() {
         // 메뉴 외부 클릭 시 자동으로 메뉴를 접기 위해 document 클릭 이벤트 리스너 추가
