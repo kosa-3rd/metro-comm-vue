@@ -5,6 +5,7 @@
  ---------------------
  2024.08.13 양건모, 박상현 | 글 작성 기능 추가
  2024.08.14 양건모, 박상현 | infinite-loading-vue3-ts를 이용한 글 조회
+ 2024.08.15 양건모 | 글 작성 날짜 포맷 변경, 역 선택 후 모달 클릭 시 선택된 역을 기본값으로 설정
  
  -->
 
@@ -152,6 +153,14 @@ export default {
             try {
                 const result = await axios.get(`/api/station/list?subwayId=${this.$route.params.subwayId}`);
                 this.stations = result.data;
+
+                // URL 쿼리에서 station 값을 가져옵니다.
+                const stationQuery = this.$route.query.station;
+
+                // stations 목록에서 쿼리와 일치하는 역을 기본 선택값으로 설정합니다.
+                if (stationQuery && this.stations.some((station) => station.name === stationQuery)) {
+                    this.selectedCategory = stationQuery;
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -191,13 +200,7 @@ export default {
                 );
                 console.log(response.data);
 
-                const now = new Date();
-                const kstOffset = 9 * 60 * 60 * 1000; // KST는 UTC+9
-                const kstTime = new Date(now.getTime() + kstOffset);
-
-                // KST 시간 포맷 'YYYY-MM-DDTHH:MM:SS.SSSSSS'
-                const formattedDate =
-                    kstTime.toISOString().slice(0, 23) + kstTime.getMilliseconds().toString().padStart(3, '0');
+                const formattedDate = this.formatDate(new Date());
 
                 this.posts.unshift({
                     content: `${this.newPostContent}`,
@@ -232,7 +235,11 @@ export default {
                 const response = await axios.get(endpoint);
 
                 if (response.data.posts.totalPages > this.page) {
-                    this.posts = [...this.posts, ...response.data.posts.content];
+                    const newPosts = response.data.posts.content.map((post) => ({
+                        ...post,
+                        createdAt: this.formatDate(new Date(post.createdAt)),
+                    }));
+                    this.posts = [...this.posts, ...newPosts];
                     this.page += 1;
                     $state.loaded();
                 } else {
@@ -243,6 +250,16 @@ export default {
                 alert('err');
                 $state.complete();
             }
+        },
+        formatDate(date) {
+            const options = {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true, // 12시간 형식 (오전/오후)
+            };
+            return new Intl.DateTimeFormat('ko-KR', options).format(date).replace('. ', '-');
         },
     },
 };
