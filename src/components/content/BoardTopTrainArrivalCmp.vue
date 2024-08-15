@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 
@@ -77,7 +77,6 @@ const lightenColor = (color, percent) => {
 export default {
     setup() {
         const arrivals = ref([]);
-        let intervalId = null;
         const route = useRoute();
         const showMore = ref(false);
         const showAllSubways = ref(false);
@@ -91,10 +90,16 @@ export default {
             }
         };
 
-        const shouldFetchData = computed(() => {
-            return route.query.station !== undefined;
-        });
+        const firstFetch = function () {
+            if (route.query.station != undefined) {
+                fetchData();
+                return setInterval(fetchData, 5000);
+            } else {
+                return null;
+            }
+        };
 
+        const intervalId = firstFetch();
         const sortedArrivals = computed(() => {
             const targetSubwayId = route.params.subwayId;
 
@@ -124,32 +129,11 @@ export default {
             };
         };
 
-        const startPolling = () => {
-            if (shouldFetchData.value) {
-                fetchData();
-                intervalId = setInterval(fetchData, 5000);
-            }
-        };
-
-        onMounted(() => {
-            startPolling();
-        });
-
         onUnmounted(() => {
-            clearInterval(intervalId);
+            if (intervalId != null) {
+                clearInterval(intervalId);
+            }
         });
-
-        watch(
-            () => route.query.station,
-            (newVal) => {
-                if (newVal !== undefined) {
-                    startPolling(); // 쿼리 파라미터에 'station'이 있을 때 폴링 시작
-                } else {
-                    clearInterval(intervalId); // 쿼리 파라미터에 'station'이 없으면 폴링 중지
-                }
-            },
-            { immediate: true },
-        );
 
         const toggleShowMore = () => {
             showMore.value = !showMore.value;
