@@ -27,9 +27,11 @@
                 </div>
             </div>
         </div>
-        <button v-if="sortedArrivals.length > 1" @click="toggleShowAllSubways" class="toggle-button">
-            {{ showAllSubways ? '현재 노선만 보기' : '모든 노선 보기' }}
-        </button>
+        <div class="toggle-wrapper">
+            <button v-if="sortedArrivals.length > 1" @click="toggleShowAllSubways" class="toggle-button">
+                {{ showAllSubways ? '현재 노선만 보기' : '모든 노선 보기' }}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -199,7 +201,7 @@ export default {
 #arrival-wrapper {
     margin: auto;
     margin-top: 0rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
     width: 95%;
     position: relative;
 }
@@ -210,18 +212,21 @@ export default {
     font-weight: bolder;
     text-align: center;
 }
+.toggle-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    width: 95%;
+}
 
 .toggle-button {
-    position: absolute; /* 버튼을 절대 위치로 배치 */
-    right: 0%; /* 오른쪽 끝에서 10px 떨어진 위치 */
+    display: block;
     background-color: transparent;
     color: #424242;
-    padding: 8px 12px;
-    padding-top: 0px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 300; /* 글씨체를 얇게 설정 */
     white-space: nowrap;
     min-width: 80px;

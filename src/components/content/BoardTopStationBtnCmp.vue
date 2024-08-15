@@ -28,10 +28,6 @@
                         {{ menu.name }}
                     </button>
                 </template>
-                <div v-else class="col-span-3 flex justify-center items-center">
-                    <p class="select-route-text text-2xl font-semibold text-gray-700">노선을 선택해 주세요</p>
-                    <img src="../../assets/NO_Route.png" alt="No Route" class="ml-2 w-20 h-20" />
-                </div>
             </transition-group>
         </div>
         <div class="flex justify-end pr-2">
@@ -204,7 +200,7 @@ export default {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 300; /* 글씨체를 얇게 설정 */
     white-space: nowrap;
     min-width: 80px;

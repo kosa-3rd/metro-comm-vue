@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="welcome-wrapper">
         <h3>WELCOME</h3>
     </div>
 </template>
@@ -8,4 +8,11 @@
 export default {};
 </script>
 
-<style></style>
+<style>
+#welcome-wrapper {
+    background-color: rgb(249, 249, 249);
+    width: 95%;
+    margin: 2rem auto;
+    height: 700px;
+}
+</style>

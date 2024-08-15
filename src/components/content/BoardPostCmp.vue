@@ -13,7 +13,7 @@
     <div>
         <!-- 게시판 제목 -->
         <!-- <h2 class="text-2xl font-bold pl-4">1호선 게시판</h2> -->
-        <div class="border rounded-lg p-4 mt-4 ml-4 mr-4 mb-20">
+        <div class="border rounded-lg p-4 ml-4 mr-4 mb-20">
             <!-- 게시글 목록 -->
             <ul class="divide-y divide-gray-200 mt-4">
                 <li v-for="(post, index) in posts" :key="index" class="p-4">
