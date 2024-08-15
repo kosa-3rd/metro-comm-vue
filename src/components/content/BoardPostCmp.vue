@@ -259,7 +259,7 @@ export default {
                 minute: '2-digit',
                 hour12: true, // 12시간 형식 (오전/오후)
             };
-            return new Intl.DateTimeFormat('ko-KR', options).format(date).replace('. ', '-');
+            return new Intl.DateTimeFormat('ko-KR', options).format(date).replace('. ', '-').replace('. ', ' ');
         },
     },
 };
