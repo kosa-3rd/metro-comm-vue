@@ -55,7 +55,23 @@
                         </div>
                     </div>
                 </li>
-                <infinite-loading @infinite="infiniteHandler"> </infinite-loading>
+                <infinite-loading @infinite="infiniteHandler">
+                    <template #spinner>
+                        <div class="posts-end">
+                            <h3>글을 불러오는 중입니다</h3>
+                        </div>
+                    </template>
+                    <template #no-more>
+                        <div class="posts-end">
+                            <h3>마지막 글입니다</h3>
+                        </div>
+                    </template>
+                    <template #no-results>
+                        <div class="posts-end">
+                            <h3>작성된 글이 없습니다.</h3>
+                        </div>
+                    </template>
+                </infinite-loading>
             </transition-group>
         </ul>
 
@@ -360,5 +376,21 @@ export default {
 
 .clickable:active {
     background-color: #e0e0e0;
+}
+
+.posts-end {
+    width: 100%;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-radius: 5px;
+    background-color: #f3f3f3;
+    margin: auto;
+    text-align: center;
+}
+
+.posts-end h3 {
+    font-size: 1.1rem;
+    color: #696969;
+    @apply font-semibold;
 }
 </style>
