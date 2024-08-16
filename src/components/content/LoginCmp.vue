@@ -8,7 +8,7 @@
  2024.08.14 양건모 | 로그인 성공시 이전의 페이지로 이동하도록 설정
  
  -->
- <template>
+<template>
     <div id="login-wrapper">
         <div id="upper-compo">
             <div id="upper-compo-left" class="w-6 mb-4 mt-4">
@@ -97,6 +97,7 @@ const submit = async function () {
             userStore.login(info.data);
         })
         .then(() => {
+            alert('로그인되었습니다');
             router.go(-1);
         })
         .catch(() => {
