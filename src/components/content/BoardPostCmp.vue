@@ -15,8 +15,8 @@
         <h2 class="text-lg font-semibold pl-4 text-gray-500 text-center mb-4" v-if="!$route.params.subwayId">
             지하철 소식
         </h2>
-        <h2 class="text-lg font-semibold pl-4 text-gray-500 text-center mb-4" v-if="$route.query.station">
-            {{ $route.query.station }}
+        <h2 class="text-lg font-semibold pl-4 text-black text-left mb-4 ml-4" v-if="$route.query.station">
+            {{ $route.query.station }}역 게시판
         </h2>
         <div class="border rounded-lg p-4 ml-4 mr-4 mb-20">
             <!-- 게시글 목록 -->

@@ -1,13 +1,3 @@
-<!-- 
- 담당자: 김호영
- 시작 일자: 2024.08.
- 설명 : 역 버튼 컴포넌트
- ---------------------
- 2024.08.12 양건모 | 역 버튼 클릭시 queryString 추가
- 2024.08.15 양건모 | Board 컴포넌트에 :key 속성을 추가함에 따라 선택한 역 표시 로직 변경
- 
- -->
-
 <template>
     <div>
         <div id="buttonArea">
@@ -28,15 +18,16 @@
                         {{ menu.name }}
                     </button>
                 </template>
-                <!-- <div v-else class="col-span-3 flex justify-center items-center">
-                    <p class="select-route-text text-2xl font-semibold text-gray-700">노선을 선택해 주세요</p>
-                    <img src="../../assets/NO_Route.png" alt="No Route" class="ml-2 w-20 h-20" />
-                </div> -->
             </transition-group>
         </div>
-        <div class="flex justify-end pr-2" v-if="$route.params.subwayId">
+        <div class="flex justify-between items-center pr-2 pl-2" v-if="$route.params.subwayId">
+            <!-- 노선 이름을 왼쪽에 검정 글씨로 출력 -->
+            <span class="text-black font-bold text-2xl text-left ml-4">
+                    {{ lineName }} 게시판
+            </span>
+            <!-- 메뉴 접기/펼치기 버튼 -->
             <button @click="toggleMenu" class="toggle-btn text-gray-500 font-thin text-xs">
-                {{ isExpanded ? '접기 ' : '펼치기' }}
+                {{ isExpanded ? '접기' : '펼치기' }}
             </button>
         </div>
     </div>
@@ -47,10 +38,10 @@ import axios from 'axios';
 
 export default {
     props: {
-        // stationId: {
-        //     type: Number,
-        //     required: true, // stationId는 필수 prop
-        // },
+        lineName: {
+            type: String,
+            default: '',
+        },
     },
     data() {
         return {
@@ -63,6 +54,7 @@ export default {
     created() {
         if (this.$route.params.subwayId) {
             this.fetchStations();
+            this.fetchLineName();  // 지하철 노선 이름을 가져오는 API 호출
         }
     },
     mounted() {
@@ -70,21 +62,11 @@ export default {
         document.addEventListener('click', this.handleOutsideClick);
     },
     beforeUnmount() {
-        // beforeDestroy 대신 beforeUnmount 사용
         // 컴포넌트가 파괴되기 전에 이벤트 리스너 제거
         document.removeEventListener('click', this.handleOutsideClick);
     },
     watch: {
         $route: 'fetchStations',
-        stationId: {
-            immediate: true, // stationId 변경 시 즉시 반응
-            handler(newVal) {
-                console.log('New stationId received in BoardTopStationBtnCmp.vue:', newVal); // stationId가 올바르게 전달되는지 확인
-                if (newVal) {
-                    this.fetchStations(newVal); // 역 목록 가져오기
-                }
-            },
-        },
     },
     computed: {
         visibleMenus() {
@@ -101,12 +83,21 @@ export default {
         async fetchStations() {
             try {
                 const response = await axios.get(`/api/station/list?subwayId=${this.$route.params.subwayId}`);
-                this.menus = response.data.map((subwayId) => ({
-                    id: subwayId.id,
-                    name: subwayId.name,
+                this.menus = response.data.map((station) => ({
+                    id: station.id,
+                    name: station.name,
                 }));
             } catch (error) {
                 console.error('Failed to fetch stations:', error);
+            }
+        },
+        async fetchLineName() {
+            try {
+                const response = await axios.get(`/api/subway/name/${this.$route.params.subwayId}`);
+                const lineName = response.data;
+                this.$emit('lineNameUpdated', lineName);  // 부모 컴포넌트로 노선 이름 전달
+            } catch (error) {
+                console.error('Failed to fetch line name:', error);
             }
         },
         toggleMenu() {
@@ -143,7 +134,6 @@ export default {
     },
 };
 </script>
-
 <style scoped>
 #buttonArea {
     max-height: 250px;
