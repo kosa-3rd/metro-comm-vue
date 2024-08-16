@@ -6,7 +6,6 @@
             :borderColor="borderColor"
             @lineNameUpdated="updateLineName"
         />
-        <board-top-station-btn-cmp></board-top-station-btn-cmp>
         <content-cmp></content-cmp>
         <nav-cmp></nav-cmp>
         <footer-cmp></footer-cmp>
@@ -72,15 +71,15 @@ export default {
                 localStorage.removeItem('lineColor');
                 localStorage.removeItem('borderColor');
             }
-        }
+        },
     },
     watch: {
-        '$route'(to) {
+        $route(to) {
             if (to.path === '/') {
                 this.checkForDefaultRoute();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
