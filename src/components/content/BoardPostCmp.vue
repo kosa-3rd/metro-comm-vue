@@ -12,7 +12,12 @@
 <template>
     <div>
         <!-- 게시판 제목 -->
-        <!-- <h2 class="text-2xl font-bold pl-4">1호선 게시판</h2> -->
+        <h2 class="text-lg font-semibold pl-4 text-gray-500 text-center mb-4" v-if="!$route.params.subwayId">
+            지하철 소식
+        </h2>
+        <h2 class="text-lg font-semibold pl-4 text-gray-500 text-center mb-4" v-if="$route.query.station">
+            {{ $route.query.station }}
+        </h2>
         <div class="border rounded-lg p-4 ml-4 mr-4 mb-20">
             <!-- 게시글 목록 -->
             <ul class="divide-y divide-gray-200 mt-4">
