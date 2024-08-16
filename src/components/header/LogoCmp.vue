@@ -11,7 +11,12 @@
 </template>
 
 <script>
+import { provide } from 'vue';
+
 export default {
+    setup() {
+        provide('lineName', this.props.lineName);
+    },
     props: {
         lineName: {
             type: String,

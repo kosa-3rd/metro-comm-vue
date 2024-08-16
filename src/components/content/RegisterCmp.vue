@@ -9,11 +9,10 @@
 <template>
     <div id="register-wrapper">
         <div id="upper-compo">
-            <div id="upper-compo-left" class="w-6 mb-4 mt-4">
-            </div>
+            <div id="upper-compo-left" class="w-6 mb-4 mt-4"></div>
             <div id="upper-compo-center">
                 <h3 id="sign-info" class="text-xl font-semibold text-center mt-4">회원가입</h3>
-                <br>
+                <br />
                 <h4 class="h-sm-text bg mb-3 font-bold">지하철 소식과 정보, 모두의 손끝에서</h4>
             </div>
             <div id="upper-compo-right" class="w-6"></div>
@@ -68,6 +67,7 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router';
 
 export default {
     data() {
@@ -181,7 +181,7 @@ export default {
                 })
                 .then(() => {
                     alert('회원가입이 완료되었습니다.');
-                    location.href = 'http://localhost:3000/';
+                    router.push('/');
                 })
                 .catch((error) => {
                     console.log(error);
